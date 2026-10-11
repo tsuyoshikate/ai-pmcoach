@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { calculateResult, radarPoint, scoreBand } from './results.js';
 import { readQuizState, TOTAL_QUESTIONS } from './quiz.js';
 import { startNewQuiz } from './Assessment.jsx';
-import {useLocalDiagnosis,GeneratedDiagnosis} from './LocalAIDiagnosis.jsx';
+import {useLocalDiagnosis,DiagnosisContent,DiagnosisLoading,hasEnoughEvidence} from './LocalAIDiagnosis.jsx';
 
 function RadarChart({ dimensions }) {
   const polygon = score => dimensions.map((_, index) => radarPoint(index, score).join(',')).join(' ');
@@ -54,7 +54,6 @@ export default function Results({ completedState }) {
       <div className="result-score-line"><strong>{result.accuracy.toFixed(1)}</strong><span>%</span><i/><span className="result-level">答对 {result.totalCorrect} / {TOTAL_QUESTIONS} 题</span></div>
       <p>本次用时 {Math.floor(result.timeMs / 60000)} 分 {Math.floor(result.timeMs / 1000) % 60} 秒{result.skipped ? ` · 跳过 ${result.skipped} 题` : ''}。正确率 = 答对题数 ÷ 总题数 × 100%，跳过计为未答对。</p>
       <p className="mock-result-note">辅助指标：自适应能力估计 {result.total} / 100 分，为下方六维度估计分的平均值。下方诊断依据本次答案、考核点与题库解析生成，仅覆盖本次测到的内容。</p>
-      {ai.enabled && <div className="local-ai-controls"><button type="button" className="primary-button" disabled={ai.busy} onClick={ai.generate}>{ai.busy?'正在生成诊断…':'生成六维度 AI 诊断'}</button><p role="status" aria-live="polite">{ai.progress || '本地版可调用已登录的 GPT；点击后，仅将本次六维度答题数据发送用于诊断。'}</p></div>}
     </header>
     <div className="result-body">
       <section className="radar-panel" aria-labelledby="radar-heading">
@@ -64,33 +63,20 @@ export default function Results({ completedState }) {
         <p className="score-method">每个维度初始 50 分，逐题按“旧分 × 0.7 + 本题贡献 × 0.3”更新。贡献由题目实际难度与对错确定，跳过按答错处理；展示分数四舍五入为整数。</p>
       </section>
       <section className="diagnosis-panel" aria-labelledby="diagnosis-heading">
-        <h2 id="diagnosis-heading">你的弱点诊断 <span className="diagnosis-demo-tag">基于本次答题证据</span></h2>
-        <div className="diagnosis-list">{result.dimensions.map(d => <article className="diagnosis-row" key={d.id} data-dimension={d.id}>
-          <div className="diagnosis-row-heading"><h3>{d.name}<b className="dimension-swatch" aria-hidden="true"/></h3><span className={`dimension-score ${scoreBand(d.score)}`}>{d.score === null ? '本次未测' : <>{d.score}<small> / 100</small></>}</span></div>
-          <div className="dimension-answer-count">{d.total ? `答对 ${d.correct} / ${d.total} 题${d.skipped ? ` · 跳过 ${d.skipped} 题` : ''}` : '本次随机抽题未覆盖该维度'}</div>
-          {ai.reports[d.id] ? <GeneratedDiagnosis report={ai.reports[d.id]}/> : <div className="personal-diagnosis">
-            <h4>一句话总结</h4><p className="diagnosis-summary">{d.diagnosis.summary}</p><p>{d.diagnosis.scope}</p>
-            <h4>具体错在哪里</h4>
-            {d.diagnosis.repeatedIssues.map(issue => <p key={issue.keyword}>{issue.text}</p>)}
-            {d.diagnosis.weaknesses.length ? <ul className="weakness-list">{d.diagnosis.weaknesses.map(w => <li key={w.questionId}><strong>#{w.questionId} · {w.title}</strong><p>{w.evidence}</p></li>)}</ul> : <p>{d.skipped === d.total ? '尚无已作答题，暂不判断薄弱点。' : '本次已作答题未出现错误，暂不列出薄弱点。'}</p>}
-            {d.diagnosis.pending.map(p => <p className="pending-evidence" key={p.questionId}>{p.text}</p>)}
-            <h4>可能为什么会错 <span className="diagnosis-demo-tag">待验证假设</span></h4>
-            {d.diagnosis.weaknesses.length ? d.diagnosis.weaknesses.map(w => <div key={w.questionId} className="cause-hypothesis"><p>{w.hypothesis}</p><details><summary>如何验证这条推测？</summary><p>{w.verification}</p></details></div>) : <p>没有已作答错题，不推测错误原因。</p>}
-            <h4>下一步，现在就做</h4>
-            {d.diagnosis.weaknesses.length ? d.diagnosis.weaknesses.map(w => <div key={w.questionId} className="next-step"><p><b>#{w.questionId} · 10分钟练习：</b>{w.action}</p><p>{w.doneWhen}</p>{w.reading && <p><a href={w.reading.url} target="_blank" rel="noopener noreferrer">{w.reading.title} ↗</a><br/>{w.reading.task}</p>}</div>) : <p>{d.skipped ? '先补答上方跳过的题目，写出选择依据，再核对解析。' : '选本维度一道答对题，改变其中一项业务约束，再判断最佳方案是否变化；写出条件变化前后的两条判断依据。'}</p>}
-            <h4>正向鼓励</h4><p className="diagnosis-encouragement">{d.diagnosis.encouragement}</p>
-            <div className="diagnosis-confidence"><h4>诊断信心分</h4><span>{d.diagnosis.confidence}<small> / 100 · 证据充分度</small></span></div>
-            <details className="confidence-explanation"><summary>信心分如何计算？</summary><p>{d.diagnosis.confidenceReason}</p></details>
-            <details className="answer-evidence"><summary>查看本维度的 {d.total} 道答题依据</summary>{d.diagnosis.evidence.map(a => <div className="evidence-question" key={a.questionId}>
-              <strong>本次第{a.sessionNumber}题（题库 #{a.questionId}） · {a.difficulty} · 实际难度 {a.actualDifficulty}/5 · {a.skipped ? '已跳过' : a.isCorrect ? '答对' : '答错'}</strong>
-              <p>考核点：{a.assessmentPoints.join(' ')}</p><p>{a.prompt}</p>
-              <ul>{a.options.map((option,i) => <li key={i}>{'ABCD'[i]}. {option}{a.userAnswer === 'ABCD'[i] ? '（你的选择）' : ''}{a.correctAnswer === 'ABCD'[i] ? '（最佳答案）' : ''}</li>)}</ul>
-              <p>最佳答案依据：{a.explanations[a.correctAnswer]}</p>
-              {a.userAnswer && !a.isCorrect && <p>你的选项解析：{a.explanations[a.userAnswer]}</p>}
-            </div>)}</details>
-          </div>}
-          {ai.reports[d.id] && <details className="personal-diagnosis"><summary>查看规则诊断与答题依据</summary><p>{d.diagnosis.summary}</p>{d.diagnosis.evidence.map(a=><p key={a.questionId}>本次第{a.sessionNumber}题（题库 #{a.questionId}）：{a.prompt}；{a.skipped?'跳过':a.isCorrect?'答对':'答错'}。考核点：{a.assessmentPoints.join(' ')} 最佳答案依据：{a.explanations[a.correctAnswer]}</p>)}</details>}
-        </article>)}</div>
+        <h2 id="diagnosis-heading">你的能力诊断 <span className="diagnosis-demo-tag">基于本次答题证据</span></h2>
+        <div className="diagnosis-list">{result.dimensions.map(d => {
+          const expanded=ai.expanded.has(d.id);const report=ai.reports[d.id];
+          return <article className="diagnosis-row diagnosis-card" key={d.id} data-dimension={d.id}>
+            {report?.source==='fallback'&&<span className="basic-diagnosis-tag">(基础诊断)</span>}
+            <div className="diagnosis-row-heading"><h3>{d.name}<b className="dimension-swatch" aria-hidden="true"/></h3><span className={'dimension-score '+scoreBand(d.score)}>{d.score === null ? '本次未测' : <>{d.score}<small> 分</small></>}</span></div>
+            <div className="dimension-answer-count">答对 {d.correct} / {d.total} 题{d.skipped ? ' · 跳过 '+d.skipped+' 题' : ''}</div>
+            <button type="button" className="diagnosis-toggle" aria-expanded={expanded} aria-controls={'dimension-diagnosis-'+d.id} onClick={()=>ai.toggle(d.id)}>{expanded?'收起诊断':'展开查看诊断'} <span aria-hidden="true">{expanded?'−':'+'}</span></button>
+            {expanded&&<div id={'dimension-diagnosis-'+d.id}>
+              {!hasEnoughEvidence(d)?<p className="insufficient-diagnosis">这个维度的答题数据不足以生成诊断，建议你做一次专项测评。</p>:
+                ai.enabled&&!report?<DiagnosisLoading status={ai.loading[d.id]??'loading'}/>:<DiagnosisContent dimension={d} report={report}/>}
+            </div>}
+          </article>;
+        })}</div>
       </section>
     </div>
     <div className="results-actions"><button type="button" className="primary-button">开始你的学习计划</button><a className="retake-link" href="#/assessment" onClick={startNewQuiz}>重新抽题测评</a></div>

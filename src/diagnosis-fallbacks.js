@@ -47,5 +47,7 @@ export const fallbackReports = Object.fromEntries(Object.entries(rows).map(([id,
 export function fallbackFor(dimensionId, score) {
   if (!Number.isInteger(dimensionId) || !rows[dimensionId] || !Number.isFinite(score) || score < 0 || score > 100) throw Error('Invalid fallback input');
   const band = score < 40 ? 0 : score < 60 ? 1 : score < 80 ? 2 : 3;
-  return { source:'fallback', band, sections:fallbackReports[dimensionId][band] };
+  const sections={...fallbackReports[dimensionId][band]};
+  if(score>90){sections['一句话总结']='本次得分较高，下一步挑战复杂约束';sections['具体问题']='本分数档优先安排进阶挑战，不列薄弱点；尝试在质量、成本与交付限制同时变化时作出决策。这是通用建议，不是个人能力定论。';}
+  return { source:'fallback', band, sections };
 }
