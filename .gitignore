@@ -2,3 +2,5 @@ node_modules/
 dist/
 .sites-local/
 *.tar.gz
+.local-ai/
+.env.local

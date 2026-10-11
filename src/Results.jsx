@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { calculateResult, radarPoint, scoreBand } from './results.js';
 import { readQuizState, TOTAL_QUESTIONS } from './quiz.js';
 import { startNewQuiz } from './Assessment.jsx';
+import {useLocalDiagnosis,GeneratedDiagnosis} from './LocalAIDiagnosis.jsx';
 
 function RadarChart({ dimensions }) {
   const polygon = score => dimensions.map((_, index) => radarPoint(index, score).join(',')).join(' ');
@@ -38,6 +39,7 @@ export default function Results({ completedState }) {
   const [storedState] = useState(() => { try { return readQuizState(window.localStorage); } catch { return null; } });
   const state = completedState ?? storedState;
   const result = calculateResult(state);
+  const ai = useLocalDiagnosis(state,result);
   useEffect(() => { headingRef.current?.focus({preventScroll:true}); }, []);
   if (!result) return <main className="results-main empty-results">
     <span className="section-label">能力诊断报告</span>
@@ -52,6 +54,7 @@ export default function Results({ completedState }) {
       <div className="result-score-line"><strong>{result.accuracy.toFixed(1)}</strong><span>%</span><i/><span className="result-level">答对 {result.totalCorrect} / {TOTAL_QUESTIONS} 题</span></div>
       <p>本次用时 {Math.floor(result.timeMs / 60000)} 分 {Math.floor(result.timeMs / 1000) % 60} 秒{result.skipped ? ` · 跳过 ${result.skipped} 题` : ''}。正确率 = 答对题数 ÷ 总题数 × 100%，跳过计为未答对。</p>
       <p className="mock-result-note">辅助指标：自适应能力估计 {result.total} / 100 分，为下方六维度估计分的平均值。下方诊断依据本次答案、考核点与题库解析生成，仅覆盖本次测到的内容。</p>
+      {ai.enabled && <div className="local-ai-controls"><button type="button" className="primary-button" disabled={ai.busy} onClick={ai.generate}>{ai.busy?'正在生成诊断…':'生成六维度 AI 诊断'}</button><p role="status" aria-live="polite">{ai.progress || '本地版可调用已登录的 GPT；点击后，仅将本次六维度答题数据发送用于诊断。'}</p></div>}
     </header>
     <div className="result-body">
       <section className="radar-panel" aria-labelledby="radar-heading">
@@ -65,7 +68,7 @@ export default function Results({ completedState }) {
         <div className="diagnosis-list">{result.dimensions.map(d => <article className="diagnosis-row" key={d.id} data-dimension={d.id}>
           <div className="diagnosis-row-heading"><h3>{d.name}<b className="dimension-swatch" aria-hidden="true"/></h3><span className={`dimension-score ${scoreBand(d.score)}`}>{d.score === null ? '本次未测' : <>{d.score}<small> / 100</small></>}</span></div>
           <div className="dimension-answer-count">{d.total ? `答对 ${d.correct} / ${d.total} 题${d.skipped ? ` · 跳过 ${d.skipped} 题` : ''}` : '本次随机抽题未覆盖该维度'}</div>
-          <div className="personal-diagnosis">
+          {ai.reports[d.id] ? <GeneratedDiagnosis report={ai.reports[d.id]}/> : <div className="personal-diagnosis">
             <h4>一句话总结</h4><p className="diagnosis-summary">{d.diagnosis.summary}</p><p>{d.diagnosis.scope}</p>
             <h4>具体错在哪里</h4>
             {d.diagnosis.repeatedIssues.map(issue => <p key={issue.keyword}>{issue.text}</p>)}
@@ -85,7 +88,8 @@ export default function Results({ completedState }) {
               <p>最佳答案依据：{a.explanations[a.correctAnswer]}</p>
               {a.userAnswer && !a.isCorrect && <p>你的选项解析：{a.explanations[a.userAnswer]}</p>}
             </div>)}</details>
-          </div>
+          </div>}
+          {ai.reports[d.id] && <details className="personal-diagnosis"><summary>查看规则诊断与答题依据</summary><p>{d.diagnosis.summary}</p>{d.diagnosis.evidence.map(a=><p key={a.questionId}>本次第{a.sessionNumber}题（题库 #{a.questionId}）：{a.prompt}；{a.skipped?'跳过':a.isCorrect?'答对':'答错'}。考核点：{a.assessmentPoints.join(' ')} 最佳答案依据：{a.explanations[a.correctAnswer]}</p>)}</details>}
         </article>)}</div>
       </section>
     </div>

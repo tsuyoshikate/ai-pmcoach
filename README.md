@@ -65,3 +65,7 @@ npm run build -- --base=./
 ## 题库
 
 题库文件为 src/question-bank.js。导入脚本为 scripts/import-question-bank.mjs，接收标注 Markdown 文件路径。原始 PDF 和 Markdown 附件未包含在本仓库中。
+
+## 可选 AI 诊断
+
+公开版本默认使用规则诊断，下载后无需配置模型即可运行。已提供严格的五段中文诊断指令、输出校验、1秒/3秒重试和24段分档通用诊断；如需使用大模型，请自行接入后端。详见 [诊断指令](docs/AI_DIAGNOSIS_PROMPT.md) 和 [接入说明](docs/AI_DIAGNOSIS_INTEGRATION.md)。仓库不包含作者的本地 GPT 适配器、账号凭据或代理配置。
