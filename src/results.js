@@ -19,7 +19,7 @@ export function calculateResult(state) {
     timeMs: state.answers.reduce((sum, a) => sum + a.timeMs, 0),
     dimensions: stats.map((d, i) => {
       const score = Math.round(state.abilities[i].score);
-      const answers = state.answers.filter(a => a.dimensionId === d.id).map(a => ({ ...getQuestion(a.questionId), ...a }));
+      const answers = state.answers.map((a, index) => ({ ...getQuestion(a.questionId), ...a, sessionNumber: index + 1 })).filter(a => a.dimensionId === d.id);
       return { ...d, score, rawScore: state.abilities[i].score, diagnosis: diagnoseDimension({ name: d.name, score, answers }) };
     }) };
 }

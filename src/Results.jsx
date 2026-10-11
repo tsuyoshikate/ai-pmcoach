@@ -66,15 +66,20 @@ export default function Results({ completedState }) {
           <div className="diagnosis-row-heading"><h3>{d.name}<b className="dimension-swatch" aria-hidden="true"/></h3><span className={`dimension-score ${scoreBand(d.score)}`}>{d.score === null ? '本次未测' : <>{d.score}<small> / 100</small></>}</span></div>
           <div className="dimension-answer-count">{d.total ? `答对 ${d.correct} / ${d.total} 题${d.skipped ? ` · 跳过 ${d.skipped} 题` : ''}` : '本次随机抽题未覆盖该维度'}</div>
           <div className="personal-diagnosis">
-            <h4>一句话总结</h4><p>{d.diagnosis.summary}</p>
-            <h4>薄弱点与下一步</h4>
-            {d.diagnosis.weaknesses.length ? <ul className="weakness-list">{d.diagnosis.weaknesses.map(w => <li key={w.questionId}><strong>#{w.questionId} · {w.title}</strong><p>{w.evidence}</p><p className="diagnosis-action"><b>现在做：</b>{w.action}</p></li>)}</ul> : <p>{d.skipped === d.total ? '尚无已作答题，暂不判断薄弱点。' : '本次已作答题未出现错误，暂不列出薄弱点。'}</p>}
+            <h4>一句话总结</h4><p className="diagnosis-summary">{d.diagnosis.summary}</p><p>{d.diagnosis.scope}</p>
+            <h4>具体错在哪里</h4>
+            {d.diagnosis.repeatedIssues.map(issue => <p key={issue.keyword}>{issue.text}</p>)}
+            {d.diagnosis.weaknesses.length ? <ul className="weakness-list">{d.diagnosis.weaknesses.map(w => <li key={w.questionId}><strong>#{w.questionId} · {w.title}</strong><p>{w.evidence}</p></li>)}</ul> : <p>{d.skipped === d.total ? '尚无已作答题，暂不判断薄弱点。' : '本次已作答题未出现错误，暂不列出薄弱点。'}</p>}
             {d.diagnosis.pending.map(p => <p className="pending-evidence" key={p.questionId}>{p.text}</p>)}
+            <h4>可能为什么会错 <span className="diagnosis-demo-tag">待验证假设</span></h4>
+            {d.diagnosis.weaknesses.length ? d.diagnosis.weaknesses.map(w => <div key={w.questionId} className="cause-hypothesis"><p>{w.hypothesis}</p><details><summary>如何验证这条推测？</summary><p>{w.verification}</p></details></div>) : <p>没有已作答错题，不推测错误原因。</p>}
+            <h4>下一步，现在就做</h4>
+            {d.diagnosis.weaknesses.length ? d.diagnosis.weaknesses.map(w => <div key={w.questionId} className="next-step"><p><b>#{w.questionId} · 10分钟练习：</b>{w.action}</p><p>{w.doneWhen}</p>{w.reading && <p><a href={w.reading.url} target="_blank" rel="noopener noreferrer">{w.reading.title} ↗</a><br/>{w.reading.task}</p>}</div>) : <p>{d.skipped ? '先补答上方跳过的题目，写出选择依据，再核对解析。' : '选本维度一道答对题，改变其中一项业务约束，再判断最佳方案是否变化；写出条件变化前后的两条判断依据。'}</p>}
             <h4>正向鼓励</h4><p className="diagnosis-encouragement">{d.diagnosis.encouragement}</p>
             <div className="diagnosis-confidence"><h4>诊断信心分</h4><span>{d.diagnosis.confidence}<small> / 100 · 证据充分度</small></span></div>
             <details className="confidence-explanation"><summary>信心分如何计算？</summary><p>{d.diagnosis.confidenceReason}</p></details>
             <details className="answer-evidence"><summary>查看本维度的 {d.total} 道答题依据</summary>{d.diagnosis.evidence.map(a => <div className="evidence-question" key={a.questionId}>
-              <strong>#{a.questionId} · {a.difficulty} · 实际难度 {a.actualDifficulty}/5 · {a.skipped ? '已跳过' : a.isCorrect ? '答对' : '答错'}</strong>
+              <strong>本次第{a.sessionNumber}题（题库 #{a.questionId}） · {a.difficulty} · 实际难度 {a.actualDifficulty}/5 · {a.skipped ? '已跳过' : a.isCorrect ? '答对' : '答错'}</strong>
               <p>考核点：{a.assessmentPoints.join(' ')}</p><p>{a.prompt}</p>
               <ul>{a.options.map((option,i) => <li key={i}>{'ABCD'[i]}. {option}{a.userAnswer === 'ABCD'[i] ? '（你的选择）' : ''}{a.correctAnswer === 'ABCD'[i] ? '（最佳答案）' : ''}</li>)}</ul>
               <p>最佳答案依据：{a.explanations[a.correctAnswer]}</p>

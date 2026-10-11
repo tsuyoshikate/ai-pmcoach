@@ -218,6 +218,10 @@ button:focus-visible { outline: 3px solid #7d99b8; outline-offset: 5px; }
 .weakness-list strong { font-size: 13px; color: #9b6b36; }
 .diagnosis-action { padding-top: 8px; border-top: 1px solid #eee8df; }
 .personal-diagnosis .diagnosis-encouragement { color: #526e61; }
+.personal-diagnosis .diagnosis-summary { font-size: 15px; font-weight: 600; color: #35485e; }
+.cause-hypothesis { border-left: 2px solid #c9beac; padding-left: 10px; margin-top: 10px; }
+.next-step { border: 1px solid #dce3de; background: #fafbf8; border-radius: 6px; padding: 10px 12px; margin-top: 10px; }
+.next-step a { color: #465e83; text-decoration: underline; text-underline-offset: 3px; }
 .pending-evidence { padding-left: 10px; border-left: 2px solid #c5b7a4; }
 .diagnosis-confidence { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
 .diagnosis-confidence span { font-size: 18px; color: #46586c; }

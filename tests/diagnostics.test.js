@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { calculateResult } from '../src/results.js';
+import { diagnoseDimension } from '../src/diagnostics.js';
 import { questionBank, initialQuizState, quizReducer, getQuestion, readQuizState, saveQuizState } from '../src/quiz.js';
 function finish(mode) {
   let s = initialQuizState(1000, () => 0.5);
@@ -42,7 +43,7 @@ test('wrong answers are cited individually; encouragement cites only correct ans
 test('all-correct does not invent weaknesses; all-wrong does not invent strengths', () => {
   for (const d of calculateResult(finish('correct')).dimensions) {
     assert.equal(d.diagnosis.weaknesses.length, 0);
-    assert.match(d.diagnosis.summary, /暂未发现/);
+    assert.match(d.diagnosis.summary, /已测场景判断准确/);
   }
   for (const d of calculateResult(finish('wrong')).dimensions) {
     assert.equal(d.diagnosis.weaknesses.length, 3);
@@ -54,7 +55,37 @@ test('skipped answers are missing evidence, not demonstrated skill weaknesses', 
     assert.equal(d.diagnosis.weaknesses.length, 0);
     assert.equal(d.diagnosis.pending.length, 3);
     assert.equal(d.diagnosis.confidence, 0);
-    assert.match(d.diagnosis.summary, /尚无已作答证据/);
+    assert.match(d.diagnosis.summary, /作答证据不足/);
+  }
+});
+test('all 100 questions produce summaries within 30 characters and evidence-bound hypotheses', () => {
+  for (const q of questionBank) {
+    for (const option of 'ABCD') {
+      if (option === q.correctAnswer) continue;
+      const a = { ...q, questionId: q.id, userAnswer: option, actualDifficulty: 3 };
+      const d = diagnoseDimension({ name: q.dimension, score: 45, answers: [a] });
+      assert.ok([...d.summary].length <= 30, d.summary);
+      const w = d.weaknesses[0];
+      assert.ok(w.hypothesis.startsWith('可能'));
+      assert.ok(w.hypothesis.includes(q.options['ABCD'.indexOf(option)]));
+      assert.ok(w.hypothesis.includes(q.explanations[option]));
+      assert.ok(w.verification.includes(q.explanations[q.correctAnswer]));
+      assert.ok(w.doneWhen.includes(q.explanations[q.correctAnswer]));
+      assert.ok(!/没有实际做过|缺少项目经验/.test(w.hypothesis));
+      assert.ok(w.action.includes('10分钟'));
+    }
+  }
+});
+test('repeated errors group only actual wrong question IDs sharing the stated keyword', () => {
+  const q1 = questionBank.find(q=>q.id === '003');
+  const q2 = questionBank.find(q=>q.id !== q1.id && q.dimensionId === q1.dimensionId && q.keywords.some(k=>q1.keywords.includes(k) && [...k].length <= 16));
+  assert.ok(q2);
+  const answers = [q1,q2].map(q=>({...q, questionId:q.id, userAnswer:'ABCD'.split('').find(x=>x!==q.correctAnswer),actualDifficulty:3}));
+  const d = diagnoseDimension({name:q1.dimension,score:45,answers});
+  assert.ok(d.repeatedIssues.length);
+  for (const issue of d.repeatedIssues) {
+    assert.deepEqual(issue.questionIds, [q1.id,q2.id]);
+    assert.ok(answers.every(a=>a.keywords.includes(issue.keyword)));
   }
 });
 test('saved existing assessment produces the same diagnosis after refresh', () => {
