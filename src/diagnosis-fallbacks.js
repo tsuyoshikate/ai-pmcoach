@@ -39,10 +39,10 @@ const rows = {
 };
 export const fallbackReports = Object.fromEntries(Object.entries(rows).map(([id,bands])=>[id,bands.map(([summary,topics,action])=>({
   '一句话总结': summary,
-  '具体问题': `本分数档的通用复核主题是${topics}；这是托底建议，没有引用你的逐题记录，不能断言这些都是你的实际错误。`,
-  '可能原因': '通用诊断缺少逐题推断依据，无法判断你的个人错因；请用本页答题依据核对判断过程。',
+  '具体问题': `这个分数档建议优先复核${topics}。你可以结合下方答题依据，选择最需要练习的一项。`,
+  '可能原因': '先核对判断中使用了哪些场景约束，是否区分了方案选择与验证方式；具体原因需要结合逐题依据确认。',
   '下一步行动': `${action}完成标准：能引用场景约束解释选择，并指出至少一个不适用的条件。`,
-  '正向鼓励': '这次测评可以作为复盘起点。挑一道答对的题保存其判断依据，再对照一题需要复核的题目；用具体的正确判断建立信心。',
+  '正向鼓励': '这次测评可以作为复盘起点。如果有答对题，保存它的判断依据；如果暂时没有，先完成上方的小练习，再核对结果。用可验证的判断建立信心。',
 }))]));
 export function fallbackFor(dimensionId, score) {
   if (!Number.isInteger(dimensionId) || !rows[dimensionId] || !Number.isFinite(score) || score < 0 || score > 100) throw Error('Invalid fallback input');
