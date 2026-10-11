@@ -10,6 +10,7 @@ export const DIAGNOSIS_INSTRUCTIONS = `你扮演一位有8年经验的资深AI�
 可能原因：分数超过90时只说明不推测薄弱原因；其他情况下引用所依据的错题编号，依据错误选项与解析推测判断过程中的偏差。必须含“可能”“假设”或“待验证”，并给一个核验问题。不能凭空推测用户没有项目经验、没做过某系统、性格、投入、学习经历或动机。没有错题则不推测错因。
 下一步行动：给一个立刻可开始、约10—20分钟的具体动作，写清练习对象、产出和完成标准，针对上述错题；不许只说“建议多学习”。可以让用户写方案对照表、画流程或建立评测样本。不要编造资料、链接或章节。无错题则做条件变化练习；跳过则先补答核验。
 正向鼓励：只引用实际答对题的具体题号与考核点，说明本题中的哪项选择合理，不能推断未经验证的经历或全局能力。本段禁止引用错题或跳过题，包括“再去重做某道错题”也不得写在本段，错题动作只能写在下一步行动段。没有答对题时明确暂不判断优势，鼓励完成一个不引用题号的可验证小练习；不得伪造成功证据。
+死规矩：报告必须引用至少1个输入中的具体题库题号，统一用 #001 格式；全错时引用错题，全对或高分时引用答对题。没有足够答题数据不得生成报告。
 禁止“你在X方面有潜力但缺乏深度”“你很努力”等空泛表述。不要猜数据、不要改分数、不要引用未提供题号。报告约400—800个中文字符。
 提交前自行检查：五个标题完整且有序，第一段<=30字符，错题引用正确，鼓励只引答对题，原因是有证据的待验证假设，动作可执行。`;
 export function diagnosisInput(d) {
@@ -29,6 +30,7 @@ export function parseDiagnosis(text, input) {
   const sections=Object.fromEntries(matches.map((m,i)=>[m[1],text.slice(m.index+m[0].length,matches[i+1]?.index??text.length).trim()]));
   if (Object.values(sections).some(s=>!s) || [...sections['一句话总结']].length>30) throw Error('Invalid section length');
   const refs=s=>[...s.matchAll(/#(\d{3})/g)].map(m=>m[1]);
+  if(!refs(text).length){const error=Error('Missing question references');error.code='MISSING_REFERENCES';throw error;}
   const wrong=input.questions.filter(q=>q.outcome==='wrong');
   const correct=input.questions.filter(q=>q.outcome==='correct');
   const allowed=new Set(input.questions.map(q=>q.questionId));
@@ -58,11 +60,11 @@ export function parseDiagnosis(text, input) {
   return { source:'ai', sections, weaknessBlocks };
 }
 const delay=(ms,signal)=>new Promise((resolve,reject)=>{if(signal?.aborted)return reject(new DOMException('Aborted','AbortError'));const t=setTimeout(()=>{signal?.removeEventListener('abort',abort);resolve();},ms);function abort(){clearTimeout(t);reject(new DOMException('Aborted','AbortError'));}signal?.addEventListener('abort',abort,{once:true});});
-export async function generateDiagnosis(input, invoke, {wait=delay,onAttempt=()=>{},signal}={}) {
+export async function generateDiagnosis(input, invoke, {wait=delay,onAttempt=()=>{},onInvalid=()=>{},signal}={}) {
   for(let attempt=1;attempt<=3;attempt++) {
     if(signal?.aborted) throw new DOMException('Aborted','AbortError');
     try { onAttempt(attempt); return {...parseDiagnosis(await invoke(input,signal),input), attempts:attempt}; }
-    catch(error){if(error.name==='AbortError')throw error;if(attempt<3)await wait(attempt===1?1000:3000,signal);}
+    catch(error){if(error.name==='AbortError')throw error;if(error.code==='MISSING_REFERENCES')onInvalid(error.code);if(attempt<3)await wait(attempt===1?1000:3000,signal);}
   }
   return {...fallbackFor(input.dimensionId,input.score),attempts:3};
 }

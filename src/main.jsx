@@ -7,6 +7,9 @@ import Results from './Results.jsx';
 import GrowthDashboard,{GrowthTimeline} from './GrowthDashboard.jsx';
 import {syncSnapshots} from './snapshots.js';
 import {readQuizHistory,readQuizState} from './quiz.js';
+import {ErrorBoundary,ResumeNotice,ScoreModal} from './SafetyUI.jsx';
+import Practice from './Practice.jsx';
+import Scenario from './Scenario.jsx';
 
 const dimensions = bankDimensions.map(d => [d.name, d.description, d.icon]);
 function Icon({ type = 'arrow', size = 20 }) {
@@ -19,10 +22,13 @@ function Compass() {
 }
 function loadProgress(){try{return syncSnapshots(window.localStorage,[...readQuizHistory(window.localStorage),readQuizState(window.localStorage)]);}catch{return [];}}
 function App() {
-  const getPage = () => window.location.hash === '#/growth' ? 'growth' : window.location.hash === '#/results' ? 'results' : window.location.hash === '#/assessment' ? 'assessment' : window.location.hash === '#/intro' ? 'intro' : 'home';
+  const getPage = () => /^#\/(practice|scenario)\/[1-6]$/.test(window.location.hash)?window.location.hash.slice(2):window.location.hash === '#/growth' ? 'growth' : window.location.hash === '#/results' ? 'results' : window.location.hash === '#/assessment' ? 'assessment' : window.location.hash === '#/intro' ? 'intro' : 'home';
   const [page, setPage] = useState(getPage);
   const [completedState, setCompletedState] = useState(null);
   const [snapshots,setSnapshots]=useState(loadProgress);
+  const [explaining,setExplaining]=useState(null);
+  const explain=(state,id)=>setExplaining({state,dimensionId:id});
+  const explainLatest=id=>{let state;try{state=readQuizHistory(window.localStorage).find(s=>s.sessionId===snapshots.at(-1)?.sessionId);}catch{}explain(state,id);};
   const completeAssessment=useCallback(state=>{setCompletedState(state);setSnapshots(loadProgress());},[]);
   const viewLatest=useCallback(id=>{try{setCompletedState(readQuizHistory(window.localStorage).find(s=>s.sessionId===id)??null);}catch{setCompletedState(null);}},[]);
   const mainRef = useRef(null);
@@ -33,7 +39,9 @@ function App() {
       <a className="brand flex items-center" href="#/" aria-label="AI PMCoach 首页"><span className="brand-mark"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 18V8l7-4 7 4v10l-7 4-7-4Z" stroke="currentColor" strokeWidth="1.5"/><path d="m8 15 4-7 4 7m-6.5-2h5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg></span><span>AI <strong>PMCoach</strong></span></a>
       <span className="header-note">你的 AI 产品经理成长起点</span>
     </header>
-    {page === 'growth' ? <GrowthTimeline snapshots={snapshots}/> : page === 'results' ? <Results completedState={completedState}/> : page === 'assessment' ? <Assessment onComplete={completeAssessment}/> : page === 'home' ? (snapshots.length?<GrowthDashboard snapshots={snapshots} onViewLatest={viewLatest}/>:<main ref={mainRef} tabIndex="-1" className="home-main flex flex-col items-center">
+    {['home','intro'].includes(page)&&<ResumeNotice/>}
+    {explaining&&<ScoreModal {...explaining} onClose={()=>setExplaining(null)}/>}
+    {page.startsWith('scenario/')?<Scenario dimensionId={Number(page.split('/')[1])}/>:page.startsWith('practice/')?<Practice dimensionId={Number(page.split('/')[1])}/>:page === 'growth' ? <GrowthTimeline snapshots={snapshots}/> : page === 'results' ? <Results completedState={completedState} snapshots={snapshots} onExplain={explain}/> : page === 'assessment' ? <Assessment onComplete={completeAssessment}/> : page === 'home' ? (snapshots.length?<GrowthDashboard snapshots={snapshots} onViewLatest={viewLatest} onExplain={explainLatest}/>:<main ref={mainRef} tabIndex="-1" className="home-main flex flex-col items-center">
       <span className="eyebrow"><span className="status-dot"/> 写给下一位 AI 产品经理</span>
       <Compass/>
       <h1>测出你的<span>AI PM</span>能力短板</h1>
@@ -53,4 +61,4 @@ function App() {
     <footer className="site-footer flex items-center justify-between"><span>AI PMCoach</span><span>让每一步成长，更有方向。</span><span>© 2026</span></footer>
   </div>;
 }
-createRoot(document.getElementById('root')).render(<App/>);
+createRoot(document.getElementById('root')).render(<ErrorBoundary><App/></ErrorBoundary>);

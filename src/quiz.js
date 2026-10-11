@@ -1,6 +1,7 @@
 import { questionBank } from './question-bank.js';
 import { initialAbilities, isComplete, selectNextQuestion, updateAbility, TOTAL_QUESTIONS, difficultyLevel } from './cat.js';
 import {saveSnapshot} from './snapshots.js';
+import {checkQuestionBank,BANK_NOT_READY} from './hardening.js';
 export { questionBank, TOTAL_QUESTIONS };
 export const QUIZ_STORAGE_KEY = 'ai-pmcoach-assessment-cat-v4';
 export const HISTORY_STORAGE_KEY = 'ai-pmcoach-history-v1';
@@ -8,6 +9,7 @@ export const SEEN_STORAGE_KEY = 'ai-pmcoach-seen-questions-v1';
 const bankById = new Map(questionBank.map(q => [q.id, q]));
 export const getQuestion = id => bankById.get(id);
 export function initialQuizState(now = Date.now(), random = Math.random, previouslySeenIds = []) {
+  if(!checkQuestionBank(questionBank).ready)throw Error(BANK_NOT_READY);
   previouslySeenIds=[...new Set(previouslySeenIds)].filter(id=>bankById.has(id)).sort();
   const abilities = initialAbilities();
   const decision = selectNextQuestion(questionBank, abilities, 0, [], random, previouslySeenIds);
@@ -64,6 +66,9 @@ function validBase(s) {
     && new Set(s.questionIds).size === s.questionIds.length && s.questionIds.every(id => bankById.has(id));
 }
 export function isValidQuizState(s) {
+  try{return validateQuizState(s);}catch{return false;}
+}
+function validateQuizState(s) {
   if (!validBase(s) || s.version !== 4 || !Number.isInteger(s.index) || s.index < 0 || s.index > TOTAL_QUESTIONS
     || s.questionIds.length !== Math.min(s.index + 1, TOTAL_QUESTIONS) || !Array.isArray(s.decisions)
     || s.decisions.length !== s.questionIds.length || !Array.isArray(s.abilities) || s.abilities.length !== 6

@@ -6,12 +6,12 @@ import {startNewQuiz} from './Assessment.jsx';
 const date=s=>new Date(s.completedAt).toLocaleString('zh-CN',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
 const delta=n=>n>0?'+'+n:String(n);
 const colors=['#7188ab','#6f9d9d','#819c81','#b59571','#9586ae','#b48f9e'];
-export function ComparisonRadar({current,previous}){
+export function ComparisonRadar({current,previous,onExplain}){
   const polygon=scores=>scores.map((s,i)=>radarPoint(i,s).join(',')).join(' ');
   return <div className="comparison-chart">
-    <svg className="results-radar comparison-radar" viewBox="0 0 520 480" role="img" aria-labelledby="comparison-title comparison-desc"><title id="comparison-title">{previous?'最近两次能力对比':'当前能力雷达图'}</title><desc id="comparison-desc">本次主色实线及半透明填充，上次浅灰虚线不填充。{current.dimensions.map((d,i)=>d.name+'本次'+d.score+'分'+(previous?'，上次'+previous.dimensions[i].score+'分':'')).join('；')}</desc>
+    <svg className="results-radar comparison-radar" viewBox="0 0 520 480" role="img" aria-labelledby="comparison-title comparison-desc"><title id="comparison-title">{previous?'最近两次能力对比':'当前能力雷达图'}</title><desc id="comparison-desc">{previous?'本次主色实线及半透明填充，上次浅灰虚线不填充。':'本次主色实线及半透明填充，尚无上次测评对比。'}{current.dimensions.map((d,i)=>d.name+'本次'+d.score+'分'+(previous?'，上次'+previous.dimensions[i].score+'分':'')).join('；')}</desc>
       {[20,40,60,80,100].map(s=><polygon key={s} points={polygon(dimensions.map(()=>s))} className="results-radar-ring"/>)}
-      {dimensions.map((d,i)=>{const [x,y]=radarPoint(i,100);const [lx,ly]=radarPoint(i,129);return <g key={d.id}><line x1="260" y1="240" x2={x} y2={y} className="results-radar-axis"/><text x={lx} y={ly} textAnchor="middle" dominantBaseline="middle" className="radar-axis-label">{d.axis}</text></g>;})}
+      {dimensions.map((d,i)=>{const [x,y]=radarPoint(i,100);const [lx,ly]=radarPoint(i,129);return <g key={d.id}><line x1="260" y1="240" x2={x} y2={y} className="results-radar-axis"/><text x={lx} y={ly} textAnchor="middle" dominantBaseline="middle" role={onExplain?'button':undefined} tabIndex={onExplain?0:undefined} onClick={()=>onExplain?.(d.id)} onKeyDown={event=>{if(onExplain&&['Enter',' '].includes(event.key)){event.preventDefault();onExplain(d.id);}}} aria-label={d.name+' '+current.dimensions[i].score+'分，查看分数构成'} className={'radar-axis-label'+(onExplain?' score-clickable':'')}>{d.axis} · {current.dimensions[i].score}</text></g>;})}
       {previous&&<polygon points={polygon(previous.dimensions.map(d=>d.score))} className="comparison-previous"/>}
       <polygon points={polygon(current.dimensions.map(d=>d.score))} className="comparison-current"/>
       {current.dimensions.map((d,i)=>{const [x,y]=radarPoint(i,d.score);return <circle key={d.id} cx={x} cy={y} r="4" className="comparison-current-point"><title>{d.name+' '+d.score+'分'}</title></circle>;})}
@@ -20,12 +20,12 @@ export function ComparisonRadar({current,previous}){
     <div className="comparison-legend"><span><i className="current-key"/>本次 · {date(current)}</span>{previous&&<span><i className="previous-key"/>上次 · {date(previous)}</span>}</div>
   </div>;
 }
-export default function GrowthDashboard({snapshots,onViewLatest}){
+export default function GrowthDashboard({snapshots,onViewLatest,onExplain}){
   const current=snapshots.at(-1),previous=snapshots.at(-2);const status=retestStatus(current.completedAt);const comparison=previous?compareSnapshots(previous,current):null;
   return <main className="growth-main">
     <header className="growth-heading"><div><span className="section-label">你的成长主页</span><h1>{previous?'看见每一次判断的变化':'从这一次，记录你的成长'}</h1><p>已完成 {snapshots.length} 次有效测评 · 最近一次 {date(current)}</p></div><div className="retest-entry"><a className={'primary-button retest-button '+status.tone} href="#/assessment" onClick={startNewQuiz}>立即复测 ↗</a><p>{status.message}</p></div></header>
     <div className="growth-accuracy"><span>最近一次正确率</span><strong>{current.accuracy.toFixed(1)}<small>%</small></strong><p>答对 {current.correctCount} / {current.questionCount} 题{comparison?' · 比上次 '+delta(comparison.accuracyDelta)+' 个百分点':''}</p></div>
-    <section className="growth-radar-panel"><h2>{previous?'本次与上次的能力轮廓':'你当前的能力轮廓'}</h2><ComparisonRadar current={current} previous={previous}/><p className="growth-method">雷达图与下方分数为六维度CAT能力估计；总分是六个维度估计分的平均值。正确率继续作为主要成绩。</p></section>
+    <section className="growth-radar-panel"><h2>{previous?'本次与上次的能力轮廓':'你当前的能力轮廓'}</h2><ComparisonRadar current={current} previous={previous} onExplain={onExplain}/><p className="growth-method">雷达图与下方分数为六维度CAT能力估计；总分是六个维度估计分的平均值。正确率继续作为主要成绩。点击维度分数查看构成。</p></section>
     {comparison?<section className="growth-stat-grid" aria-label="复测变化摘要">
       <article><span>能力估计总分变化</span><h3>{previous.totalScore}分 → {current.totalScore}分 <b className={comparison.totalDelta>0?'change-up':comparison.totalDelta<0?'change-down':'change-flat'}>({delta(comparison.totalDelta)})</b></h3></article>
       <article><span>提升最大的维度</span><h3>{comparison.mostImproved?comparison.mostImproved.name+'提升了'+comparison.mostImproved.delta+'分':'本次没有分数提升的维度'}</h3></article>

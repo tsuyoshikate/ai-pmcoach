@@ -1,8 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { getQuestion, initialQuizState, quizReducer, readQuizState, saveQuizState, readSeenQuestionIds, TOTAL_QUESTIONS } from './quiz.js';
+import { questionBank, getQuestion, initialQuizState, quizReducer, readQuizState, saveQuizState, readSeenQuestionIds, TOTAL_QUESTIONS } from './quiz.js';
 import { isComplete, logQuestionDecision, logScoreChange } from './cat.js';
+import {bankHealthForUI,singleFlight} from './hardening.js';
+import {BankUnavailable} from './SafetyUI.jsx';
 
-export function startNewQuiz() {
+export function startNewQuiz(event,force=false) {
+  if(!bankHealthForUI(questionBank).ready){event?.preventDefault?.();window.location.hash='/assessment';return null;}
+  if(!force){let pending;try{pending=readQuizState(window.localStorage);}catch{}if(pending?.completedAt===null){event?.preventDefault?.();window.location.hash='/intro';return pending;}}
   let seen=[];try{seen=readSeenQuestionIds(window.localStorage);}catch{}
   const state = initialQuizState(Date.now(),Math.random,seen);
   try { saveQuizState(window.localStorage, state); } catch { /* Assessment still works in memory. */ }
@@ -15,12 +19,14 @@ export function startOrResumeQuiz() {
   } catch { /* Continue without storage. */ }
   return startNewQuiz();
 }
-export default function Assessment({ onComplete }) {
+export default function Assessment(props){return bankHealthForUI(questionBank).ready?<AssessmentReady {...props}/>:<BankUnavailable/>;}
+function AssessmentReady({ onComplete }) {
   const [state, setState] = useState(() => {
     try { return readQuizState(window.localStorage) ?? initialQuizState(Date.now(),Math.random,readSeenQuestionIds(window.localStorage)); } catch { return initialQuizState(); }
   });
   const stateRef = useRef(state);
   const [storageError, setStorageError] = useState(false);
+  const [submitting,setSubmitting]=useState(false);
   const headingRef = useRef(null);
   const commit = useCallback((action, render = true) => {
     const previous = stateRef.current;
@@ -34,6 +40,8 @@ export default function Assessment({ onComplete }) {
     try { saved = saveQuizState(window.localStorage, next); } catch { /* Browser storage may be blocked. */ }
     if (render) { setState(next); setStorageError(!saved); }
   }, []);
+  const submitRef=useRef(null);
+  if(!submitRef.current)submitRef.current=singleFlight(async(type)=>{if(type==='next'&&stateRef.current.selected===null)return;setSubmitting(true);try{commit({type});await new Promise(resolve=>setTimeout(resolve,0));}finally{setSubmitting(false);}});
   useEffect(() => {
     logQuestionDecision(stateRef.current, stateRef.current.index > 0);
     commit({ type: document.hidden ? 'pause' : 'resume' });
@@ -62,12 +70,13 @@ export default function Assessment({ onComplete }) {
     window.scrollTo(0, 0);
   }, [state.index]);
   useEffect(() => { if (complete) { onComplete?.(state); window.location.hash = '/results'; } }, [complete, onComplete, state]);
+  if(!complete&&!question)return <BankUnavailable/>;
   return <main className="assessment-main">
     <div className="quiz-progress-heading"><span>第 <strong>{current}</strong> 题 / 共 {TOTAL_QUESTIONS} 题</span><span className="quiz-demo-label">自适应测评 · 单选题</span></div>
     <div className="quiz-progress-track" role="progressbar" aria-label="测评进度" aria-valuemin={0} aria-valuemax={TOTAL_QUESTIONS} aria-valuenow={state.index} aria-valuetext={`已完成${state.index}题，共${TOTAL_QUESTIONS}题`}><div style={{ width: `${state.index / TOTAL_QUESTIONS * 100}%` }}/></div>
     {storageError && <p className="storage-warning" role="alert">浏览器未能保存记录。你可以继续作答，但刷新可能丢失进度。</p>}
     {complete ? <section className="quiz-complete"><h1 ref={headingRef} tabIndex={-1}>正在打开你的答题报告</h1><a className="back-link" href="#/results">查看结果</a></section> : <>
-      <form onSubmit={event => { event.preventDefault(); commit({ type: 'next' }); }}>
+      <form onSubmit={event => { event.preventDefault(); submitRef.current('next'); }}>
         <div className="question-card">
           <div className="question-meta" data-dimension={question.dimensionId}><span className="question-tag"><span className="question-number">#{current} · </span><span className="question-dimension">{question.dimension}</span></span><span>题库 #{question.id}</span></div>
           <h1 ref={headingRef} tabIndex={-1} className="question-title">{question.prompt}</h1>
@@ -77,12 +86,12 @@ export default function Assessment({ onComplete }) {
           <div className="question-options">{question.options.map((option, index) => {
             const letter = 'ABCD'[index];
             return <label key={letter} className={`option-card${state.selected === letter ? ' is-selected' : ''}`}>
-              <input type="radio" name={`question-${question.id}`} value={letter} checked={state.selected === letter} onChange={() => commit({ type: 'select', option: letter })}/>
+              <input type="radio" disabled={submitting} name={`question-${question.id}`} value={letter} checked={state.selected === letter} onChange={() => commit({ type: 'select', option: letter })}/>
               <span className="option-letter" aria-hidden="true">{letter}</span><span className="option-text">{option}</span><span className="option-indicator" aria-hidden="true"/>
             </label>;
           })}</div>
         </fieldset>
-        <div className="quiz-actions"><button className="primary-button" type="submit" disabled={state.selected === null}>{current === TOTAL_QUESTIONS ? '提交并查看结果' : '下一题'} <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button><button className="skip-question" type="button" onClick={() => commit({ type: 'skip' })}>跳过本题</button></div>
+        <div className="quiz-actions"><button className="primary-button" type="submit" disabled={submitting||state.selected === null}>{submitting?'提交中...':current === TOTAL_QUESTIONS ? '提交并查看结果' : '下一题'} <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button><button className="skip-question" type="button" disabled={submitting} onClick={() => submitRef.current('skip')}>跳过本题</button></div>
         <p className="quiz-reassurance">答题过程中不显示对错。跳过计为未答对，进度自动保存在当前浏览器。</p>
       </form>
     </>}

@@ -1,5 +1,6 @@
 import React, {useEffect,useRef,useState} from 'react';
-import {REPORT_HEADINGS} from './ai-diagnosis.js';
+import {REPORT_HEADINGS,parseDiagnosis,diagnosisInput} from './ai-diagnosis.js';
+import {fallbackFor} from './diagnosis-fallbacks.js';
 import {weakestDimensionId,hasEnoughEvidence,createDiagnosisLoader} from './diagnosis-loader.js';
 import {requestLocalAI} from './local-ai-client.js';
 const cacheKey=state=>`ai-pmcoach-ai-v2-${state.sessionId}`;
@@ -8,23 +9,25 @@ export function useLocalDiagnosis(state,result) {
   const weakest=weakestDimensionId(result?.dimensions??[]);
   const [expanded,setExpanded]=useState(()=>new Set(weakest?[weakest]:[]));
   const [reports,setReports]=useState({});const [loading,setLoading]=useState({});
+  const [warnings,setWarnings]=useState({});
   const loader=useRef(null);
   useEffect(()=>{
-    setExpanded(new Set(weakest?[weakest]:[]));setLoading({});setReports({});
+    setExpanded(new Set(weakest?[weakest]:[]));setLoading({});setReports({});setWarnings({});
     if(!enabled||!result)return;
     const abort=new AbortController();let saved={};
-    try {const cache=JSON.parse(window.localStorage.getItem(cacheKey(state)));if(cache&&JSON.stringify(cache.answers)===JSON.stringify(state.answers)&&Object.values(cache.reports??{}).every(r=>['ai','fallback'].includes(r.source)&&REPORT_HEADINGS.every(h=>typeof r.sections?.[h]==='string'&&r.sections[h].length<7000)))saved=cache.reports??{};}catch{}
+    try {const cache=JSON.parse(window.localStorage.getItem(cacheKey(state)));if(cache&&JSON.stringify(cache.answers)===JSON.stringify(state.answers)){for(const d of result.dimensions){const r=cache.reports?.[d.id];if(!r||!hasEnoughEvidence(d))continue;try{saved[d.id]=r.source==='fallback'?fallbackFor(d.id,d.score):parseDiagnosis(REPORT_HEADINGS.map(h=>h+'：'+r.sections?.[h]).join('\n'),diagnosisInput(d));}catch{}}}}catch{}
     setReports(saved);
     const current={...saved};
     const load=createDiagnosisLoader({dimensions:result.dimensions,reports:current,signal:abort.signal,
       invoke:(input,signal)=>requestLocalAI('/api/diagnose',{state,dimensionId:input.dimensionId},signal),onStatus:(id,status)=>{if(!abort.signal.aborted)setLoading(old=>({...old,[id]:status}));},
-      onReport:(id,report)=>{if(abort.signal.aborted)return;current[id]=report;setReports({...current});try{window.localStorage.setItem(cacheKey(state),JSON.stringify({answers:state.answers,reports:current}));}catch{}},
+      onInvalid:(id)=>{if(!abort.signal.aborted)setWarnings(old=>({...old,[id]:'诊断未引用具体题号，正在重新生成。'}));},
+      onReport:(id,report)=>{if(abort.signal.aborted)return;current[id]=report;setReports({...current});setWarnings(old=>({...old,[id]:report.source==='fallback'&&old[id]?'未获得有题号依据的诊断，已展示基础诊断。':null}));try{window.localStorage.setItem(cacheKey(state),JSON.stringify({answers:state.answers,reports:current}));}catch{}},
     });
     loader.current=load;if(weakest)load(weakest).catch(()=>{});
     return()=>{abort.abort();if(loader.current===load)loader.current=null;};
   },[state?.sessionId,enabled]);
   function toggle(id){if(expanded.has(id)){setExpanded(old=>{const next=new Set(old);next.delete(id);return next;});return;}setExpanded(old=>new Set([...old,id]));if(enabled)loader.current?.(id).catch(()=>{});}
-  return {enabled,reports,loading,expanded,toggle};
+  return {enabled,reports,loading,expanded,toggle,warnings};
 }
 function matchingParagraph(text,id){return text.split(/\n+/).filter(p=>p.includes('#'+id)).join(' ')||text;}
 export function DiagnosisContent({dimension:d,report}) {
