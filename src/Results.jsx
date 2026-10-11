@@ -51,7 +51,7 @@ export default function Results({ completedState }) {
       <h1 ref={headingRef} tabIndex={-1}>你的本次测评正确率</h1>
       <div className="result-score-line"><strong>{result.accuracy.toFixed(1)}</strong><span>%</span><i/><span className="result-level">答对 {result.totalCorrect} / {TOTAL_QUESTIONS} 题</span></div>
       <p>本次用时 {Math.floor(result.timeMs / 60000)} 分 {Math.floor(result.timeMs / 1000) % 60} 秒{result.skipped ? ` · 跳过 ${result.skipped} 题` : ''}。正确率 = 答对题数 ÷ 总题数 × 100%，跳过计为未答对。</p>
-      <p className="mock-result-note">辅助指标：自适应能力估计 {result.total} / 100 分，为下方六维度估计分的平均值。诊断文字仍为固定示例，不是对你的个性化判断。</p>
+      <p className="mock-result-note">辅助指标：自适应能力估计 {result.total} / 100 分，为下方六维度估计分的平均值。下方诊断依据本次答案、考核点与题库解析生成，仅覆盖本次测到的内容。</p>
     </header>
     <div className="result-body">
       <section className="radar-panel" aria-labelledby="radar-heading">
@@ -61,11 +61,26 @@ export default function Results({ completedState }) {
         <p className="score-method">每个维度初始 50 分，逐题按“旧分 × 0.7 + 本题贡献 × 0.3”更新。贡献由题目实际难度与对错确定，跳过按答错处理；展示分数四舍五入为整数。</p>
       </section>
       <section className="diagnosis-panel" aria-labelledby="diagnosis-heading">
-        <h2 id="diagnosis-heading">六维度能力估计 <span className="diagnosis-demo-tag">诊断文字为示例</span></h2>
+        <h2 id="diagnosis-heading">你的弱点诊断 <span className="diagnosis-demo-tag">基于本次答题证据</span></h2>
         <div className="diagnosis-list">{result.dimensions.map(d => <article className="diagnosis-row" key={d.id} data-dimension={d.id}>
           <div className="diagnosis-row-heading"><h3>{d.name}<b className="dimension-swatch" aria-hidden="true"/></h3><span className={`dimension-score ${scoreBand(d.score)}`}>{d.score === null ? '本次未测' : <>{d.score}<small> / 100</small></>}</span></div>
           <div className="dimension-answer-count">{d.total ? `答对 ${d.correct} / ${d.total} 题${d.skipped ? ` · 跳过 ${d.skipped} 题` : ''}` : '本次随机抽题未覆盖该维度'}</div>
-          <p>{d.score === null ? '暂无本次答题数据，暂不展示诊断。' : <>示例诊断：{d.diagnosis}</>}</p>
+          <div className="personal-diagnosis">
+            <h4>一句话总结</h4><p>{d.diagnosis.summary}</p>
+            <h4>薄弱点与下一步</h4>
+            {d.diagnosis.weaknesses.length ? <ul className="weakness-list">{d.diagnosis.weaknesses.map(w => <li key={w.questionId}><strong>#{w.questionId} · {w.title}</strong><p>{w.evidence}</p><p className="diagnosis-action"><b>现在做：</b>{w.action}</p></li>)}</ul> : <p>{d.skipped === d.total ? '尚无已作答题，暂不判断薄弱点。' : '本次已作答题未出现错误，暂不列出薄弱点。'}</p>}
+            {d.diagnosis.pending.map(p => <p className="pending-evidence" key={p.questionId}>{p.text}</p>)}
+            <h4>正向鼓励</h4><p className="diagnosis-encouragement">{d.diagnosis.encouragement}</p>
+            <div className="diagnosis-confidence"><h4>诊断信心分</h4><span>{d.diagnosis.confidence}<small> / 100 · 证据充分度</small></span></div>
+            <details className="confidence-explanation"><summary>信心分如何计算？</summary><p>{d.diagnosis.confidenceReason}</p></details>
+            <details className="answer-evidence"><summary>查看本维度的 {d.total} 道答题依据</summary>{d.diagnosis.evidence.map(a => <div className="evidence-question" key={a.questionId}>
+              <strong>#{a.questionId} · {a.difficulty} · 实际难度 {a.actualDifficulty}/5 · {a.skipped ? '已跳过' : a.isCorrect ? '答对' : '答错'}</strong>
+              <p>考核点：{a.assessmentPoints.join(' ')}</p><p>{a.prompt}</p>
+              <ul>{a.options.map((option,i) => <li key={i}>{'ABCD'[i]}. {option}{a.userAnswer === 'ABCD'[i] ? '（你的选择）' : ''}{a.correctAnswer === 'ABCD'[i] ? '（最佳答案）' : ''}</li>)}</ul>
+              <p>最佳答案依据：{a.explanations[a.correctAnswer]}</p>
+              {a.userAnswer && !a.isCorrect && <p>你的选项解析：{a.explanations[a.userAnswer]}</p>}
+            </div>)}</details>
+          </div>
         </article>)}</div>
       </section>
     </div>

@@ -3,7 +3,7 @@ export const questionBank = [
   {
     "id": "001",
     "number": 1,
-    "originalTitle": "什么是机器学习？\r",
+    "originalTitle": "什么是机器学习？",
     "dimension": "AI 基础认知",
     "dimensionId": 1,
     "difficulty": "基础",
@@ -14,12 +14,28 @@ export const questionBank = [
       "根据历史工单总结关键词规则，逐条写入分类程序",
       "让运营逐条判断新工单，把判断结果直接返回用户"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "区分规则系统和学习系统。",
+      "识别训练数据的作用。"
+    ],
+    "focus": "从数据学习与手工规则的区别。",
+    "keywords": [
+      "机器学习",
+      "监督学习",
+      "训练数据"
+    ],
+    "explanations": {
+      "A": "模板匹配可以解决部分问题，但未体现训练学习过程。",
+      "B": "模型从样本学习映射，并通过独立数据检验泛化能力。",
+      "C": "这主要是人工编写规则，并非从样本自动学习参数。",
+      "D": "这是人工处理，没有形成可泛化的预测模型。"
+    }
   },
   {
     "id": "002",
     "number": 2,
-    "originalTitle": "描述深度学习与传统机器学习的区别。\r",
+    "originalTitle": "描述深度学习与传统机器学习的区别。",
     "dimension": "AI 基础认知",
     "dimensionId": 1,
     "difficulty": "进阶",
@@ -30,12 +46,29 @@ export const questionBank = [
       "直接从零训练深层网络，减少人工特征分析",
       "先用逻辑回归或树模型建立可解释基线"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "依据样本量选择基线。",
+      "判断深度学习适用条件。"
+    ],
+    "focus": "模型复杂度与数据条件的匹配。",
+    "keywords": [
+      "深度学习",
+      "特征工程",
+      "基线",
+      "数据规模"
+    ],
+    "explanations": {
+      "A": "无关文本不直接解决目标任务的数据不足。",
+      "B": "转换可能丢失字段语义，没有证据表明有额外收益。",
+      "C": "少量数据下更易产生不稳定结果，且解释与训练成本较高。",
+      "D": "在当前数据与解释约束下，传统模型是合理基线，并非排斥深度学习。"
+    }
   },
   {
     "id": "003",
     "number": 3,
-    "originalTitle": "什么是自然语言处理？\r",
+    "originalTitle": "什么是自然语言处理？",
     "dimension": "AI 基础认知",
     "dimensionId": 1,
     "difficulty": "基础",
@@ -46,12 +79,28 @@ export const questionBank = [
       "对原始音频进行语音识别",
       "对商品图片进行目标检测"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "区分文本任务与音频转写。",
+      "识别意图分类。"
+    ],
+    "focus": "语言理解与语音识别的任务边界。",
+    "keywords": [
+      "自然语言处理",
+      "意图识别",
+      "语音识别"
+    ],
+    "explanations": {
+      "A": "输入已是文本，目标是理解用户意图，属于自然语言处理。",
+      "B": "声纹识别解决说话者身份，而非请求含义。",
+      "C": "语音转写已完成，该任务不直接判断文本意图。",
+      "D": "输入和目标都与视觉检测不同。"
+    }
   },
   {
     "id": "004",
     "number": 4,
-    "originalTitle": "如何评估一个机器学习模型的性能？\r",
+    "originalTitle": "如何评估一个机器学习模型的性能？",
     "dimension": "数据与效果评估",
     "dimensionId": 4,
     "difficulty": "进阶",
@@ -62,12 +111,29 @@ export const questionBank = [
       "以响应速度作为主指标，将风险识别率留到上线后观察",
       "用训练集总体准确率排序，选择分数最高的模型"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "选择匹配错误成本的指标。",
+      "识别独立测试集。"
+    ],
+    "focus": "类别不平衡时准确率与召回率的区别。",
+    "keywords": [
+      "召回率",
+      "精确率",
+      "类别不平衡",
+      "数据泄漏"
+    ],
+    "explanations": {
+      "A": "同时考虑漏检成本和审核约束，避免仅靠总体准确率。",
+      "B": "测试集参与选择会造成评估偏乐观，应另留最终测试数据。",
+      "C": "速度不能替代风险任务的识别效果和上线前验证。",
+      "D": "训练集不能代表泛化能力，总体准确率还可能掩盖少数类漏检。"
+    }
   },
   {
     "id": "005",
     "number": 5,
-    "originalTitle": "什么是过拟合和欠拟合？\r",
+    "originalTitle": "什么是过拟合和欠拟合？",
     "dimension": "AI 基础认知",
     "dimensionId": 1,
     "difficulty": "基础",
@@ -78,12 +144,29 @@ export const questionBank = [
       "模型过拟合，需要排查复杂度与样本代表性",
       "模型欠拟合，需要先让它更好地拟合训练集"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "识别过拟合。",
+      "选择合适验证方式。"
+    ],
+    "focus": "训练效果与未见数据效果的差距。",
+    "keywords": [
+      "过拟合",
+      "欠拟合",
+      "泛化",
+      "验证集"
+    ],
+    "explanations": {
+      "A": "不能在没有证据时忽略验证差距并认定成熟。",
+      "B": "训练表现无法证明对新样本的泛化能力。",
+      "C": "训练与验证之间的明显差距是过拟合的重要信号，仍需进一步排查分布差异。",
+      "D": "欠拟合通常连训练表现也不足，与题干不符。"
+    }
   },
   {
     "id": "006",
     "number": 6,
-    "originalTitle": "请解释什么是神经网络。\r",
+    "originalTitle": "请解释什么是神经网络。",
     "dimension": "AI 基础认知",
     "dimensionId": 1,
     "difficulty": "基础",
@@ -94,12 +177,29 @@ export const questionBank = [
       "通过把所有训练样本原样保存，并逐条检索答案",
       "通过增加层数，直接获得与人脑相同的推理机制"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "理解层间映射。",
+      "识别参数训练。"
+    ],
+    "focus": "非线性变换在神经网络中的作用。",
+    "keywords": [
+      "神经网络",
+      "权重",
+      "激活函数",
+      "非线性"
+    ],
+    "explanations": {
+      "A": "多层非线性组合使网络能够表达复杂映射，权重通过训练调整。",
+      "B": "纯线性变换的组合仍是线性变换。",
+      "C": "这描述了存储检索，不是神经网络通常的参数化学习机制。",
+      "D": "层数增加不能证明机制等同人脑，也不保证推理可靠性。"
+    }
   },
   {
     "id": "007",
     "number": 7,
-    "originalTitle": "描述决策树和随机森林。\r",
+    "originalTitle": "描述决策树和随机森林。",
     "dimension": "AI 基础认知",
     "dimensionId": 1,
     "difficulty": "进阶",
@@ -110,12 +210,29 @@ export const questionBank = [
       "用多棵树逐次纠正前一棵树的残差",
       "对不同抽样和特征子集训练多棵树，再聚合预测"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "识别集成机制。",
+      "理解模型解释成本。"
+    ],
+    "focus": "单棵树与随机森林的稳定性权衡。",
+    "keywords": [
+      "决策树",
+      "随机森林",
+      "集成学习",
+      "方差"
+    ],
+    "explanations": {
+      "A": "更深的树可能进一步过拟合，不能直接解决稳定性。",
+      "B": "缺少有效多样性，复制相同预测难以降低波动。",
+      "C": "这是更接近提升方法的机制，不是随机森林的典型训练方式。",
+      "D": "随机化与集成通常降低单树波动，但需验证效果和成本。"
+    }
   },
   {
     "id": "008",
     "number": 8,
-    "originalTitle": "什么是梯度下降？\r",
+    "originalTitle": "什么是梯度下降？",
     "dimension": "AI 基础认知",
     "dimensionId": 1,
     "difficulty": "基础",
@@ -126,12 +243,28 @@ export const questionBank = [
       "按负梯度方向更新，步长由学习率控制",
       "按正梯度方向更新，步长由学习率控制"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "理解损失优化。",
+      "识别学习率作用。"
+    ],
+    "focus": "梯度方向与参数更新方向的区别。",
+    "keywords": [
+      "梯度下降",
+      "损失函数",
+      "学习率"
+    ],
+    "explanations": {
+      "A": "数据增加不能替代模型参数的优化步骤。",
+      "B": "这是随机搜索式思路，并非梯度下降更新。",
+      "C": "梯度指向局部增长最快方向，负梯度通常用于局部下降。",
+      "D": "这通常会局部增大损失，而非下降。"
+    }
   },
   {
     "id": "009",
     "number": 9,
-    "originalTitle": "请解释什么是卷积神经网络。\r",
+    "originalTitle": "请解释什么是卷积神经网络。",
     "dimension": "AI 基础认知",
     "dimensionId": 1,
     "difficulty": "基础",
@@ -142,12 +275,28 @@ export const questionBank = [
       "为每个像素单独编写判断规则，不参与训练",
       "用局部连接和共享卷积核提取视觉特征"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "理解视觉归纳偏置。",
+      "识别卷积特征提取。"
+    ],
+    "focus": "卷积的局部连接与参数共享。",
+    "keywords": [
+      "卷积神经网络",
+      "局部感受野",
+      "参数共享"
+    ],
+    "explanations": {
+      "A": "会丢失划痕等局部结构，不能解释卷积优势。",
+      "B": "这是另一种流程，不体现卷积的结构特征。",
+      "C": "这不是可训练卷积的工作方式。",
+      "D": "局部连接与参数共享能高效提取边缘、纹理等模式。"
+    }
   },
   {
     "id": "010",
     "number": 10,
-    "originalTitle": "什么是迁移学习？\r",
+    "originalTitle": "什么是迁移学习？",
     "dimension": "AI 基础认知",
     "dimensionId": 1,
     "difficulty": "进阶",
@@ -158,12 +307,29 @@ export const questionBank = [
       "复用预训练表示，在专业工单上适配并验证",
       "把测试标签用于微调，以证明迁移可以提升效果"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "判断预训练模型适配。",
+      "避免直接承诺效果。"
+    ],
+    "focus": "迁移收益与目标领域验证。",
+    "keywords": [
+      "迁移学习",
+      "预训练",
+      "微调",
+      "领域差异"
+    ],
+    "explanations": {
+      "A": "没有复用学到的参数或表示，未体现典型迁移收益。",
+      "B": "预训练能力不等于专业任务达标，仍需目标域评估。",
+      "C": "利用既有知识减少从零学习需求，同时检查目标领域适配性。",
+      "D": "测试集进入训练会污染最终评估，无法可信证明收益。"
+    }
   },
   {
     "id": "011",
     "number": 11,
-    "originalTitle": "如何评估一个新市场的机会？\r",
+    "originalTitle": "如何评估一个新市场的机会？",
     "dimension": "商业与增长",
     "dimensionId": 6,
     "difficulty": "高阶",
@@ -174,12 +340,29 @@ export const questionBank = [
       "先进行品牌推广，以曝光数量作为进入市场的依据",
       "依据行业总规模确定销量预测，再按预测开发完整产品"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "验证需求与付费。",
+      "评估进入约束。"
+    ],
+    "focus": "市场规模与可付费需求的区别。",
+    "keywords": [
+      "市场机会",
+      "付费意愿",
+      "MVP",
+      "竞争分析"
+    ],
+    "explanations": {
+      "A": "功能数量不证明需求强度或商业可行性。",
+      "B": "先确认真实需求、付费和可交付条件，降低仅凭市场规模进入的风险。",
+      "C": "曝光不能证明用户有明确问题或采购意愿。",
+      "D": "总市场不能直接推导可获得收入，缺少需求与渠道验证。"
+    }
   },
   {
     "id": "012",
     "number": 12,
-    "originalTitle": "描述一个你进行的竞争分析。\r",
+    "originalTitle": "描述一个你进行的竞争分析。",
     "dimension": "商业与增长",
     "dimensionId": 6,
     "difficulty": "进阶",
@@ -190,12 +373,29 @@ export const questionBank = [
       "比较真实替代方案，用试用证据说明取舍",
       "列出各家竞品功能数量，说明本产品数量排名靠前"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "比较替代方案。",
+      "连接差异与用户选择。"
+    ],
+    "focus": "功能差异与真实竞争优势的区别。",
+    "keywords": [
+      "竞争分析",
+      "替代方案",
+      "差异化",
+      "采购决策"
+    ],
+    "explanations": {
+      "A": "融资不能直接证明功能定位或客户选择逻辑。",
+      "B": "宣传文案缺少客户行为与价值验证。",
+      "C": "覆盖真实替代方案，把比较结果连接到客户选择和产品优先级。",
+      "D": "数量排名无法证明功能有用或驱动购买。"
+    }
   },
   {
     "id": "013",
     "number": 13,
-    "originalTitle": "如何确定产品的定价策略？\r",
+    "originalTitle": "如何确定产品的定价策略？",
     "dimension": "商业与增长",
     "dimensionId": 6,
     "difficulty": "高阶",
@@ -206,12 +406,29 @@ export const questionBank = [
       "按研发总投入平均摊给预计客户，作为最终报价",
       "提供不限量低价套餐，等用户增长后再核算成本"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "估计服务成本。",
+      "验证付费区间。"
+    ],
+    "focus": "价值定价与 AI 单位经济的联动。",
+    "keywords": [
+      "价值定价",
+      "推理成本",
+      "毛利",
+      "套餐"
+    ],
+    "explanations": {
+      "A": "忽略自身成本和客户价值差异，可能造成高频客户亏损。",
+      "B": "兼顾客户支付意愿、成本分布和套餐可行性，避免高用量亏损。",
+      "C": "内部投入不能替代需求与价值验证，客户预测也可能偏差。",
+      "D": "可能积累不可持续成本，且后续涨价影响客户预期。"
+    }
   },
   {
     "id": "014",
     "number": 14,
-    "originalTitle": "你如何看待当前的 AI 市场趋势？\r",
+    "originalTitle": "你如何看待当前的 AI 市场趋势？",
     "dimension": "商业与增长",
     "dimensionId": 6,
     "difficulty": "进阶",
@@ -222,12 +439,28 @@ export const questionBank = [
       "等待所有竞争对手采用，再视为本产品必须采用",
       "把趋势转成场景假设，用真实客服任务验证"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "评价趋势来源。",
+      "把技术变化转成可验证假设。"
+    ],
+    "focus": "趋势信号与业务需求证据的区别。",
+    "keywords": [
+      "市场趋势",
+      "需求验证",
+      "技术成熟度"
+    ],
+    "explanations": {
+      "A": "演示条件与实际分布可能不同，不能直接外推。",
+      "B": "讨论热度不能替代真实客户需求和上线验证。",
+      "C": "竞争动作不能代替自身客户需求与约束判断。",
+      "D": "技术热度只是信号，价值需落到场景效果、成本和需求证据。"
+    }
   },
   {
     "id": "015",
     "number": 15,
-    "originalTitle": "描述一个市场推广活动。\r",
+    "originalTitle": "描述一个市场推广活动。",
     "dimension": "商业与增长",
     "dimensionId": 6,
     "difficulty": "进阶",
@@ -238,12 +471,29 @@ export const questionBank = [
       "介绍宣传材料数量与制作过程，以工作量证明活动成功",
       "说明目标人群与转化目标，解释渠道选择，并比较获客成本和激活质量"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "设置活动目标。",
+      "衡量转化与获客成本。"
+    ],
+    "focus": "推广触达与有效转化的区别。",
+    "keywords": [
+      "市场推广",
+      "转化漏斗",
+      "获客成本",
+      "归因"
+    ],
+    "explanations": {
+      "A": "曝光和互动不等于付费或有效激活。",
+      "B": "缺少归因和用户质量，难以证明活动的真实贡献。",
+      "C": "投入量不等于增长结果，无法判断渠道效率。",
+      "D": "把活动决策与有效转化连接，能区分曝光和实际用户价值。"
+    }
   },
   {
     "id": "016",
     "number": 16,
-    "originalTitle": "描述你之前负责的一个 AI 产品。\r",
+    "originalTitle": "描述你之前负责的一个 AI 产品。",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "进阶",
@@ -254,12 +504,29 @@ export const questionBank = [
       "先说明团队人数与开发时长，再强调项目复杂程度",
       "先说明模型品牌与参数规模，再介绍所有上线功能"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "定义项目成功标准。",
+      "说明个人决策与证据。"
+    ],
+    "focus": "团队成果与个人贡献的可追溯性。",
+    "keywords": [
+      "项目复盘",
+      "个人贡献",
+      "业务价值",
+      "SOP"
+    ],
+    "explanations": {
+      "A": "目标、责任、证据与方法形成可追问链条，便于判断实际贡献。",
+      "B": "缺少可验证证据且模糊责任边界。",
+      "C": "规模和投入不足以证明有效结果及个人责任。",
+      "D": "技术与功能清单不能证明个人决策或产品价值。"
+    }
   },
   {
     "id": "017",
     "number": 17,
-    "originalTitle": "如何确定产品的优先级？\r",
+    "originalTitle": "如何确定产品的优先级？",
     "dimension": "AI 产品设计",
     "dimensionId": 3,
     "difficulty": "高阶",
@@ -270,12 +537,29 @@ export const questionBank = [
       "先做客户最常提的功能，权限缺陷在试点后再观察",
       "先修权限阻断项，再按收益、成本和依赖排序"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "比较收益和成本。",
+      "识别上线阻断项。"
+    ],
+    "focus": "优先级排序中的价值、证据与依赖。",
+    "keywords": [
+      "优先级",
+      "机会成本",
+      "依赖",
+      "上线风险"
+    ],
+    "explanations": {
+      "A": "交付速度不等于核心价值，也不能消除阻断风险。",
+      "B": "竞品覆盖度不能替代自身安全与价值判断。",
+      "C": "客户请求频次不能覆盖已识别的越权风险。",
+      "D": "严重安全问题影响试点资格，功能排序应建立在可安全交付基础上。"
+    }
   },
   {
     "id": "018",
     "number": 18,
-    "originalTitle": "请描述你如何制定产品路线图。\r",
+    "originalTitle": "请描述你如何制定产品路线图。",
     "dimension": "AI 产品设计",
     "dimensionId": 3,
     "difficulty": "高阶",
@@ -286,12 +570,29 @@ export const questionBank = [
       "先承诺覆盖全部业务部门，再让技术团队解决质量",
       "只写最终愿景，不设置任何阶段目标或检查点"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "按结果规划阶段。",
+      "设置验证与调整条件。"
+    ],
+    "focus": "路线图承诺与不确定性管理。",
+    "keywords": [
+      "产品路线图",
+      "里程碑",
+      "依赖",
+      "验证假设"
+    ],
+    "explanations": {
+      "A": "功能数量不反映价值或难度，也忽略验证依赖。",
+      "B": "把关键不确定性作为阶段门槛，依赖明确后再扩大承诺。",
+      "C": "未验证核心能力就承诺扩展，可能造成不可交付目标。",
+      "D": "愿景不能代替可推进、可调整的路线图。"
+    }
   },
   {
     "id": "019",
     "number": 19,
-    "originalTitle": "如何收集用户反馈？\r",
+    "originalTitle": "如何收集用户反馈？",
     "dimension": "用户与场景洞察",
     "dimensionId": 2,
     "difficulty": "进阶",
@@ -302,12 +603,29 @@ export const questionBank = [
       "覆盖不同活跃程度用户，结合访谈与行为日志",
       "只看总访问量变化，不再收集具体任务反馈"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "选择反馈样本。",
+      "交叉验证用户陈述。"
+    ],
+    "focus": "反馈样本偏差与行为证据的互补。",
+    "keywords": [
+      "用户访谈",
+      "行为日志",
+      "样本偏差",
+      "反馈渠道"
+    ],
+    "explanations": {
+      "A": "单个客户有价值但不能代表整个目标群体。",
+      "B": "论坛参与存在自选择偏差，频次不等于总体需求。",
+      "C": "扩大样本覆盖并结合行为，避免仅依赖高声量群体。",
+      "D": "聚合流量难以解释具体问题和需求原因。"
+    }
   },
   {
     "id": "020",
     "number": 20,
-    "originalTitle": "你如何处理用户的负面反馈？\r",
+    "originalTitle": "你如何处理用户的负面反馈？",
     "dimension": "用户与场景洞察",
     "dimensionId": 2,
     "difficulty": "进阶",
@@ -318,12 +636,29 @@ export const questionBank = [
       "承诺下个版本彻底消除误答，先恢复用户信心",
       "立即按用户猜测更换模型，不再调查输入和知识来源"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "确认影响范围。",
+      "形成反馈闭环。"
+    ],
+    "focus": "回应用户与查明问题的区别。",
+    "keywords": [
+      "负面反馈",
+      "问题复现",
+      "影响分级",
+      "沟通闭环"
+    ],
+    "explanations": {
+      "A": "既降低用户继续受影响的风险，也为定位问题保留信息。",
+      "B": "整体指标不能解释个体问题，也没有有效兜底。",
+      "C": "未定位原因就作绝对承诺，可能进一步损害信任。",
+      "D": "用户描述是线索，不足以直接确定技术根因。"
+    }
   },
   {
     "id": "021",
     "number": 21,
-    "originalTitle": "描述一个你认为的成功的产品案例。\r",
+    "originalTitle": "描述一个你认为的成功的产品案例。",
     "dimension": "商业与增长",
     "dimensionId": 6,
     "difficulty": "进阶",
@@ -334,12 +669,29 @@ export const questionBank = [
       "以开发周期长证明成功，强调团队持续投入",
       "定义成功标准，用任务收益与经营证据论证"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "定义成功标准。",
+      "区分增长和价值。"
+    ],
+    "focus": "产品成功的衡量标准与证据边界。",
+    "keywords": [
+      "产品成功",
+      "留存",
+      "单位经济",
+      "证据"
+    ],
+    "explanations": {
+      "A": "设计认可不能直接证明任务完成或经营结果。",
+      "B": "注册不能证明持续价值或商业可持续性。",
+      "C": "投入不等于结果，缺少产品成功的衡量标准。",
+      "D": "多类证据对应成功定义，避免单一规模指标被过度解释。"
+    }
   },
   {
     "id": "022",
     "number": 22,
-    "originalTitle": "请描述一个失败的产品案例。\r",
+    "originalTitle": "请描述一个失败的产品案例。",
     "dimension": "AI 产品设计",
     "dimensionId": 3,
     "difficulty": "进阶",
@@ -350,12 +702,29 @@ export const questionBank = [
       "说明技术团队延期，以交付问题替代用户价值分析",
       "比较预期与实际，用证据区分根因和假设"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "区分现象与原因。",
+      "提出验证与改进。"
+    ],
+    "focus": "失败归因与可行动复盘的区别。",
+    "keywords": [
+      "失败复盘",
+      "流失",
+      "根因分析",
+      "验证"
+    ],
+    "explanations": {
+      "A": "竞争是背景，不能替代自身定位和体验的因果分析。",
+      "B": "资源投入与环境描述没有形成可行动的学习。",
+      "C": "延期可能有影响，但不足以解释全部失败机制。",
+      "D": "不把失败现象直接当原因，能形成可检验的改进方向。"
+    }
   },
   {
     "id": "023",
     "number": 23,
-    "originalTitle": "如何进行用户需求分析？\r",
+    "originalTitle": "如何进行用户需求分析？",
     "dimension": "用户与场景洞察",
     "dimensionId": 2,
     "difficulty": "进阶",
@@ -366,12 +735,29 @@ export const questionBank = [
       "用点击量最高的现有功能推断用户无需语音",
       "查找竞品语音页面，复制其交互和默认配置"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "挖掘真实任务。",
+      "用证据验证问题。"
+    ],
+    "focus": "用户提出的方案与底层需求的区别。",
+    "keywords": [
+      "需求分析",
+      "用户任务",
+      "旅程地图",
+      "原型测试"
+    ],
+    "explanations": {
+      "A": "把解决方案请求还原成问题，避免直接实现未经验证的功能。",
+      "B": "跳过问题验证，可能实现不解决痛点的功能。",
+      "C": "已有功能流量不能排除新场景或特定群体需求。",
+      "D": "竞品方案不能证明本用户的任务需求。"
+    }
   },
   {
     "id": "024",
     "number": 24,
-    "originalTitle": "你如何与设计师合作？\r",
+    "originalTitle": "你如何与设计师合作？",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "进阶",
@@ -382,12 +768,29 @@ export const questionBank = [
       "共同定义任务与异常状态，用原型验证恢复路径",
       "先确认正常回答界面，异常状态等开发时临时决定"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "对齐设计目标。",
+      "覆盖 AI 异常状态。"
+    ],
+    "focus": "视觉交付与共同验证体验的区别。",
+    "keywords": [
+      "设计协作",
+      "原型",
+      "异常状态",
+      "用户测试"
+    ],
+    "explanations": {
+      "A": "视觉规格无法替代业务目标与交互约束。",
+      "B": "验证过晚且没有共同任务标准，容易测成组件理解而非真实使用。",
+      "C": "AI 体验包括异常与恢复，协作需验证用户能否完成任务。",
+      "D": "容易漏掉关键路径，增加返工并影响任务完成。"
+    }
   },
   {
     "id": "025",
     "number": 25,
-    "originalTitle": "请描述一个你解决的复杂产品问题。\r",
+    "originalTitle": "请描述一个你解决的复杂产品问题。",
     "dimension": "用户与场景洞察",
     "dimensionId": 2,
     "difficulty": "高阶",
@@ -398,12 +801,29 @@ export const questionBank = [
       "先减少所有课程难度，以课程完成率作为最终目标",
       "分群定位流失，验证问题及针对性干预"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "定位关键流失环节。",
+      "验证干预效果。"
+    ],
+    "focus": "复杂问题的拆解与干预效果归因。",
+    "keywords": [
+      "问题拆解",
+      "漏斗",
+      "分群",
+      "因果归因"
+    ],
+    "explanations": {
+      "A": "没有证据表明数量不足是流失的主要原因。",
+      "B": "同时发生的变化与样本差异可能影响满意度，且未验证根因。",
+      "C": "完成率可能提高但学习价值下降，干预未区分用户水平。",
+      "D": "先找问题机制，再选择方案和验证方法，避免把相关性当因果。"
+    }
   },
   {
     "id": "026",
     "number": 26,
-    "originalTitle": "你如何与工程师合作？\r",
+    "originalTitle": "你如何与工程师合作？",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "进阶",
@@ -414,12 +834,29 @@ export const questionBank = [
       "目标任务、输入输出、异常路径及质量和延迟验收标准",
       "固定发布日期和功能数量，不再调整实现范围"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "定义验收边界。",
+      "共同评估可行性。"
+    ],
+    "focus": "功能需求与可验收约束的区别。",
+    "keywords": [
+      "工程协作",
+      "验收标准",
+      "边界条件",
+      "技术约束"
+    ],
+    "explanations": {
+      "A": "品牌不能替代目标任务与实际能力约束。",
+      "B": "只讨论正常界面会遗漏失败路径和质量要求。",
+      "C": "给出可实现和可验证的边界，便于工程师评估方案与风险。",
+      "D": "缺少可行性评估的硬承诺容易导致交付风险。"
+    }
   },
   {
     "id": "027",
     "number": 27,
-    "originalTitle": "描述一个跨职能团队的项目。\r",
+    "originalTitle": "描述一个跨职能团队的项目。",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "进阶",
@@ -430,12 +867,29 @@ export const questionBank = [
       "增加每日汇报次数，不明确交付物或责任人",
       "要求销售先承诺所有客户需求，再交研发安排执行"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "明确负责人和依赖。",
+      "设置共用上线标准。"
+    ],
+    "focus": "跨职能活动与责任闭环的区别。",
+    "keywords": [
+      "跨职能",
+      "责任分工",
+      "依赖管理",
+      "发布门槛"
+    ],
+    "explanations": {
+      "A": "让跨团队接口可追踪，明确何时需要决策或升级。",
+      "B": "标准冲突可能到发布前才暴露，造成返工。",
+      "C": "沟通频次不能代替责任与交付边界。",
+      "D": "未经评估的承诺会增加范围和资源风险。"
+    }
   },
   {
     "id": "028",
     "number": 28,
-    "originalTitle": "如何解决团队内部的冲突？\r",
+    "originalTitle": "如何解决团队内部的冲突？",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "高阶",
@@ -446,12 +900,29 @@ export const questionBank = [
       "选择折中长度，不验证是否能完成用户任务",
       "要求双方各实现一套，直接让用户长期自行选择"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "识别冲突约束。",
+      "形成决策和复查机制。"
+    ],
+    "focus": "立场冲突与可验证权衡的区别。",
+    "keywords": [
+      "冲突调解",
+      "共同目标",
+      "方案评估",
+      "决策记录"
+    ],
+    "explanations": {
+      "A": "把立场争论转为共同标准下的验证，明确下一步决策证据。",
+      "B": "资历不能替代目标和约束判断，也不利于复查。",
+      "C": "形式折中可能两边都不满足，缺少业务与技术证据。",
+      "D": "可能增加成本和体验复杂度，且未解决资源与目标冲突。"
+    }
   },
   {
     "id": "029",
     "number": 29,
-    "originalTitle": "你如何与数据科学家合作？\r",
+    "originalTitle": "你如何与数据科学家合作？",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "进阶",
@@ -462,12 +933,29 @@ export const questionBank = [
       "要求数据科学家继续优化原指标，暂不调整评估方式",
       "只增加训练数据量，以数据规模代替效果解释"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "对齐错误成本。",
+      "定义共同评估集。"
+    ],
+    "focus": "模型指标与业务成功标准的映射。",
+    "keywords": [
+      "数据科学协作",
+      "错误成本",
+      "评估集",
+      "业务指标"
+    ],
+    "explanations": {
+      "A": "检查技术进步是否转为任务收益，明确业务和模型评估关系。",
+      "B": "把责任单向转给业务，忽略模型与流程的共同影响。",
+      "C": "原指标可能与流程收益脱节，继续优化未必有效。",
+      "D": "数据更多不直接证明业务收益或解决指标错配。"
+    }
   },
   {
     "id": "030",
     "number": 30,
-    "originalTitle": "描述一个团队合作的成功案例。\r",
+    "originalTitle": "描述一个团队合作的成功案例。",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "进阶",
@@ -478,12 +966,29 @@ export const questionBank = [
       "只展示上线日期，把按时发布当作完整的成功证据",
       "说明具体协调动作、责任与交付结果证据"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "说明角色与关键协调。",
+      "提供结果证据。"
+    ],
+    "focus": "按时交付与团队协作价值的区别。",
+    "keywords": [
+      "团队协作",
+      "交付质量",
+      "复盘",
+      "责任边界"
+    ],
+    "explanations": {
+      "A": "关系和活动量不能证明如何解决交付问题。",
+      "B": "模糊专业贡献，缺少可追溯的协调证据。",
+      "C": "按时只是一个结果，未证明质量或用户价值。",
+      "D": "既呈现协作过程也呈现效果，便于追问个人作用。"
+    }
   },
   {
     "id": "031",
     "number": 31,
-    "originalTitle": "如何提升 AI 产品的用户体验？\r",
+    "originalTitle": "如何提升 AI 产品的用户体验？",
     "dimension": "AI 产品设计",
     "dimensionId": 3,
     "difficulty": "进阶",
@@ -494,12 +999,29 @@ export const questionBank = [
       "隐藏失败提示并自动返回空白编辑器，保持界面简洁",
       "默认生成更长内容，以字数增加证明输出质量"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "设计可恢复流程。",
+      "判断任务完成成本。"
+    ],
+    "focus": "输出质量与完整任务体验的区别。",
+    "keywords": [
+      "用户体验",
+      "响应延迟",
+      "纠错",
+      "任务完成"
+    ],
+    "explanations": {
+      "A": "宣传页变化没有解决使用中的状态和恢复问题。",
+      "B": "直接解决等待不确定和失败恢复成本，改善完整任务体验。",
+      "C": "隐藏状态和丢失上下文会增加困惑与重复操作。",
+      "D": "字数增加可能延长等待，也不解决错误恢复。"
+    }
   },
   {
     "id": "032",
     "number": 32,
-    "originalTitle": "描述一个数据驱动的决策例子。\r",
+    "originalTitle": "描述一个数据驱动的决策例子。",
     "dimension": "数据与效果评估",
     "dimensionId": 4,
     "difficulty": "进阶",
@@ -510,12 +1032,29 @@ export const questionBank = [
       "比较新版点击最多的商品与旧版最少的商品",
       "比较改版前后总销售额，把全部增量归给推荐"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "明确决策假设。",
+      "控制其他变化。"
+    ],
+    "focus": "指标相关变化与决策效果归因。",
+    "keywords": [
+      "数据驱动",
+      "基线",
+      "实验",
+      "归因"
+    ],
+    "explanations": {
+      "A": "主观反馈不能单独证明销售增量的因果关系。",
+      "B": "控制同期因素，较可信地识别推荐改版的增量影响。",
+      "C": "挑选不同商品会引入偏差，不是公平的方案比较。",
+      "D": "促销和时间变化都可能影响销售，不能直接归因。"
+    }
   },
   {
     "id": "033",
     "number": 33,
-    "originalTitle": "如何优化推荐系统？\r",
+    "originalTitle": "如何优化推荐系统？",
     "dimension": "数据与效果评估",
     "dimensionId": 4,
     "difficulty": "高阶",
@@ -526,12 +1065,29 @@ export const questionBank = [
       "只使用最新一次点击更新推荐，不评估长期变化",
       "以长期价值为目标，同时监测点击和多样性"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "设计护栏指标。",
+      "评估多样性与用户反馈。"
+    ],
+    "focus": "推荐短期点击与长期价值的权衡。",
+    "keywords": [
+      "推荐系统",
+      "点击率",
+      "留存",
+      "多样性"
+    ],
+    "explanations": {
+      "A": "多样性不能替代相关性，可能损害用户任务价值。",
+      "B": "忽视已经观察到的长期损失，可能放大问题。",
+      "C": "实时行为可用，但不能单独解决长期目标错配。",
+      "D": "避免单独追逐短期点击，并把重复体验纳入方案比较。"
+    }
   },
   {
     "id": "034",
     "number": 34,
-    "originalTitle": "描述一个技术挑战和解决方案。\r",
+    "originalTitle": "描述一个技术挑战和解决方案。",
     "dimension": "AI 基础认知",
     "dimensionId": 1,
     "difficulty": "高阶",
@@ -542,12 +1098,29 @@ export const questionBank = [
       "先量化模型，以部署更轻作为准确率改善证据",
       "分析噪声场景错误，验证数据或模型改进"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "定位错误来源。",
+      "设计对照验证。"
+    ],
+    "focus": "数据、模型与系统瓶颈的区分。",
+    "keywords": [
+      "语音识别",
+      "错误分析",
+      "延迟",
+      "标注质量"
+    ],
+    "explanations": {
+      "A": "算力和吞吐不直接解决噪声条件下的识别错误。",
+      "B": "泛化的数据增加未必覆盖已定位的问题条件。",
+      "C": "量化主要改变资源需求，还可能影响质量。",
+      "D": "症状指向特定声学条件，先确定数据与模型问题再干预。"
+    }
   },
   {
     "id": "035",
     "number": 35,
-    "originalTitle": "如何处理 AI 产品的数据安全问题？\r",
+    "originalTitle": "如何处理 AI 产品的数据安全问题？",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "高阶",
@@ -558,12 +1131,29 @@ export const questionBank = [
       "只对界面隐藏机密文件名称，继续把内容交给模型",
       "在回答底部增加保密免责声明，不改变访问路径"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "识别越权风险。",
+      "设计访问审计与处置。"
+    ],
+    "focus": "数据加密与权限隔离的区别。",
+    "keywords": [
+      "数据安全",
+      "权限隔离",
+      "最小权限",
+      "审计"
+    ],
+    "explanations": {
+      "A": "加密不能阻止合法系统内的越权读取，需落实端到端授权。",
+      "B": "解决不了系统内部授权缺失导致的信息返回。",
+      "C": "内容仍可能泄露，隐藏名称未阻断数据访问。",
+      "D": "告知无法代替技术授权控制。"
+    }
   },
   {
     "id": "036",
     "number": 36,
-    "originalTitle": "如何收集机器学习所需的数据？\r",
+    "originalTitle": "如何收集机器学习所需的数据？",
     "dimension": "数据与效果评估",
     "dimensionId": 4,
     "difficulty": "进阶",
@@ -574,12 +1164,29 @@ export const questionBank = [
       "先明确样本范围、使用权限和清洗标注标准",
       "把全部记录直接导入训练，等模型效果不好再检查"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "定义采集范围。",
+      "检查授权与标注质量。"
+    ],
+    "focus": "数据可获得性与训练适用性的区别。",
+    "keywords": [
+      "数据采集",
+      "代表性",
+      "授权",
+      "标注规范"
+    ],
+    "explanations": {
+      "A": "会遗漏困难和失败场景，造成代表性偏差。",
+      "B": "语料未必覆盖目标分类语义与业务分布。",
+      "C": "数量之外还需任务匹配、可用权限和质量标准。",
+      "D": "可能混入敏感、无关或标签不一致数据，增加风险和返工。"
+    }
   },
   {
     "id": "037",
     "number": 37,
-    "originalTitle": "描述一个 AI 产品的架构。\r",
+    "originalTitle": "描述一个 AI 产品的架构。",
     "dimension": "AI 产品设计",
     "dimensionId": 3,
     "difficulty": "高阶",
@@ -590,12 +1197,29 @@ export const questionBank = [
       "把所有文档全文放进每次请求，用回答长度控制泄露",
       "按权限检索知识，生成带来源回答并记录链路"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "识别架构责任。",
+      "设计可追踪链路。"
+    ],
+    "focus": "模型调用层与知识、权限和观测层的区别。",
+    "keywords": [
+      "RAG",
+      "权限过滤",
+      "模型服务",
+      "可观测性"
+    ],
+    "explanations": {
+      "A": "提示词不能替代权限过滤，参数化知识也不便逐条追溯。",
+      "B": "遗漏题干明确要求的知识追溯和权限控制。",
+      "C": "全量输入扩大泄露与成本风险，长度限制不是授权机制。",
+      "D": "明确知识、访问控制、生成与观测职责，符合追溯和隔离要求。"
+    }
   },
   {
     "id": "038",
     "number": 38,
-    "originalTitle": "如何解决 AI 偏见问题？\r",
+    "originalTitle": "如何解决 AI 偏见问题？",
     "dimension": "数据与效果评估",
     "dimensionId": 4,
     "difficulty": "高阶",
@@ -606,12 +1230,29 @@ export const questionBank = [
       "统一降低所有用户阈值，不检查各组误差变化",
       "只展示总体通过率，避免小群体样本影响上线进度"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "按群体评估。",
+      "检验缓解方案效果。"
+    ],
+    "focus": "总体质量、群体差异与解释性的区别。",
+    "keywords": [
+      "公平性",
+      "分群评估",
+      "误差分布",
+      "偏见"
+    ],
+    "explanations": {
+      "A": "可解释性不等于公平，解释不能代替误差纠正。",
+      "B": "总体分数可能掩盖群体损害，需分组验证干预效果。",
+      "C": "可能改变其他错误和风险，不能保证公平性改善。",
+      "D": "已发现差异不能靠聚合指标消除。"
+    }
   },
   {
     "id": "039",
     "number": 39,
-    "originalTitle": "请描述一个 AI 产品的伦理考虑。\r",
+    "originalTitle": "请描述一个 AI 产品的伦理考虑。",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "高阶",
@@ -622,12 +1263,29 @@ export const questionBank = [
       "只向招聘团队展示平均准确率，以内部认可替代申诉",
       "保留所有输入无限期用于未来训练，以方便复核"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "识别受影响群体。",
+      "设计审查和申诉。"
+    ],
+    "focus": "用户同意与完整伦理责任的区别。",
+    "keywords": [
+      "AI伦理",
+      "责任机制",
+      "透明性",
+      "申诉"
+    ],
+    "explanations": {
+      "A": "通知不证明公平、适用或可纠正。",
+      "B": "告知之外还需考虑实际损害及受影响者的纠正渠道。",
+      "C": "总体分数和内部认可不能代替受影响者救济。",
+      "D": "无限保留扩大隐私风险，也不是复核的必要条件。"
+    }
   },
   {
     "id": "040",
     "number": 40,
-    "originalTitle": "如何向非技术人员解释 AI 决策？\r",
+    "originalTitle": "如何向非技术人员解释 AI 决策？",
     "dimension": "AI 产品设计",
     "dimensionId": 3,
     "difficulty": "进阶",
@@ -638,12 +1296,29 @@ export const questionBank = [
       "直接展示模型生成的思考过程，称其完全反映内部计算",
       "只告知置信分数较高，要求业务人员直接接受"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "说明依据和局限。",
+      "提供复核路径。"
+    ],
+    "focus": "可理解的证据解释与模型自述的区别。",
+    "keywords": [
+      "可解释性",
+      "证据来源",
+      "用户沟通",
+      "人工复核"
+    ],
+    "explanations": {
+      "A": "技术规模不解释这次决策，也不保证正确。",
+      "B": "让用户理解可核实的依据与边界，不把生成说明等同真实机制。",
+      "C": "模型自述未必真实反映计算机制，不能作为完整解释。",
+      "D": "分数缺少证据与局限，无法支持负责任的复核。"
+    }
   },
   {
     "id": "041",
     "number": 41,
-    "originalTitle": "如何确定产品的目标用户？\r",
+    "originalTitle": "如何确定产品的目标用户？",
     "dimension": "用户与场景洞察",
     "dimensionId": 2,
     "difficulty": "进阶",
@@ -654,12 +1329,29 @@ export const questionBank = [
       "按社交平台粉丝数量选群体，以传播力证明产品匹配",
       "按员工年龄选最大群体，以覆盖人数作为唯一依据"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "识别首批目标用户。",
+      "判断需求和采用条件。"
+    ],
+    "focus": "人口属性分组与任务需求分组的区别。",
+    "keywords": [
+      "用户分群",
+      "任务频率",
+      "痛点",
+      "采购方"
+    ],
+    "explanations": {
+      "A": "职级不能替代实际任务、采用和预算证据。",
+      "B": "结合需求强度与可交付条件，便于验证实际价值。",
+      "C": "传播指标不证明具体任务需求或产品可用性。",
+      "D": "人口属性和规模不直接对应知识检索痛点。"
+    }
   },
   {
     "id": "042",
     "number": 42,
-    "originalTitle": "描述一个你进行的市场调研。\r",
+    "originalTitle": "描述一个你进行的市场调研。",
     "dimension": "用户与场景洞察",
     "dimensionId": 2,
     "difficulty": "进阶",
@@ -670,12 +1362,29 @@ export const questionBank = [
       "增加同类兴趣问卷样本，用更高比例证明销量",
       "比较社交媒体话题量，以讨论热度决定首批产量"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "识别调研偏差。",
+      "验证购买和部署障碍。"
+    ],
+    "focus": "意向问卷与真实使用证据的区别。",
+    "keywords": [
+      "市场调研",
+      "观察访谈",
+      "购买意向",
+      "试点"
+    ],
+    "explanations": {
+      "A": "补充真实行为和采用约束，避免把兴趣视为购买需求。",
+      "B": "内部样本可能不代表目标客户，还存在熟悉度偏差。",
+      "C": "提高样本量不能消除意向与行为之间的差距。",
+      "D": "热度不能证明目标家庭愿意购买和安装。"
+    }
   },
   {
     "id": "043",
     "number": 43,
-    "originalTitle": "如何进行产品的风险评估？\r",
+    "originalTitle": "如何进行产品的风险评估？",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "高阶",
@@ -686,12 +1395,29 @@ export const questionBank = [
       "设置泄露阻断门槛，明确监测和处置责任",
       "把所有低频风险都排在功能优化之后，以使用率排序"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "设置上线门槛。",
+      "明确处置责任。"
+    ],
+    "focus": "风险概率、损害程度与可逆性的权衡。",
+    "keywords": [
+      "风险评估",
+      "影响程度",
+      "可逆性",
+      "监控"
+    ],
+    "explanations": {
+      "A": "平均分不能抵消独立的严重安全问题。",
+      "B": "缺少持续责任与复评，跨团队风险可能无人闭环。",
+      "C": "低频高损害风险不能被均值掩盖，需要预防与响应机制。",
+      "D": "风险优先级还需考虑影响程度和可逆性。"
+    }
   },
   {
     "id": "044",
     "number": 44,
-    "originalTitle": "你如何看待产品的生命周期？\r",
+    "originalTitle": "你如何看待产品的生命周期？",
     "dimension": "商业与增长",
     "dimensionId": 6,
     "difficulty": "进阶",
@@ -702,12 +1428,29 @@ export const questionBank = [
       "按发布时间认定进入增长期，增加所有渠道投放",
       "按注册人数认定成熟，优先压缩研发与用户研究"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "依据采用情况选策略。",
+      "避免机械套用阶段。"
+    ],
+    "focus": "生命周期标签与阶段证据的区别。",
+    "keywords": [
+      "生命周期",
+      "产品市场匹配",
+      "激活",
+      "留存"
+    ],
+    "explanations": {
+      "A": "未验证持续价值时，应先解决采用与产品匹配问题。",
+      "B": "阶段标签不能替代根因分析与有边界的验证。",
+      "C": "时间不能自动代表阶段，投放可能放大流失成本。",
+      "D": "规模不等于成熟，任务价值仍未成立。"
+    }
   },
   {
     "id": "045",
     "number": 45,
-    "originalTitle": "描述一个产品的迭代过程。\r",
+    "originalTitle": "描述一个产品的迭代过程。",
     "dimension": "AI 产品设计",
     "dimensionId": 3,
     "difficulty": "进阶",
@@ -718,12 +1461,29 @@ export const questionBank = [
       "开发完成后全量发布，再看用户是否主动投诉",
       "仅比较演示样例，确认更流畅后停止后续监测"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "设置迭代假设。",
+      "制定灰度与回滚。"
+    ],
+    "focus": "功能发布与验证闭环的区别。",
+    "keywords": [
+      "产品迭代",
+      "灰度发布",
+      "验收",
+      "回滚"
+    ],
+    "explanations": {
+      "A": "交付量无法证明目标问题得到解决。",
+      "B": "把开发、质量和实际使用验证连接，并允许失败时恢复。",
+      "C": "投诉不足以覆盖错误，还缺少上线前与小范围验证。",
+      "D": "演示不代表真实任务分布，效果可能随流量变化。"
+    }
   },
   {
     "id": "046",
     "number": 46,
-    "originalTitle": "如何确定一个新 AI 产品的市场定位？\r",
+    "originalTitle": "如何确定一个新 AI 产品的市场定位？",
     "dimension": "商业与增长",
     "dimensionId": 6,
     "difficulty": "进阶",
@@ -734,12 +1494,29 @@ export const questionBank = [
       "只强调模型版本比竞品新，作为长期差异化依据",
       "聚焦投研任务，用引用可靠性和流程收益验证"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "明确目标客户与替代方案。",
+      "验证价值主张。"
+    ],
+    "focus": "定位陈述与差异化证据的区别。",
+    "keywords": [
+      "市场定位",
+      "差异化",
+      "价值主张",
+      "MVP"
+    ],
+    "explanations": {
+      "A": "价格不能弥补任务匹配不足，也可能不可持续。",
+      "B": "范围宽泛且难验证，资源限制下容易稀释价值。",
+      "C": "模型更新不必然转换为客户任务优势。",
+      "D": "具体人群、任务和差异能被测试，而不是泛化承诺。"
+    }
   },
   {
     "id": "047",
     "number": 47,
-    "originalTitle": "你如何看待全球化对 AI 产品的影响？\r",
+    "originalTitle": "你如何看待全球化对 AI 产品的影响？",
     "dimension": "商业与增长",
     "dimensionId": 6,
     "difficulty": "高阶",
@@ -750,12 +1527,29 @@ export const questionBank = [
       "翻译界面后沿用中文评估集，以模型多语言宣传作验证",
       "直接复制原市场价格，以统一品牌避免研究购买方式"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "识别当地任务和数据约束。",
+      "分阶段验证。"
+    ],
+    "focus": "语言翻译与产品本地化的区别。",
+    "keywords": [
+      "全球化",
+      "本地化",
+      "跨语言评估",
+      "数据治理"
+    ],
+    "explanations": {
+      "A": "本地化涉及使用、质量和治理，翻译界面只是其中一部分。",
+      "B": "先迁移扩大风险，数据要求应在部署前核实。",
+      "C": "宣传和旧评估集不能证明当地语言及流程效果。",
+      "D": "购买预算与渠道可能不同，统一价格缺少证据。"
+    }
   },
   {
     "id": "048",
     "number": 48,
-    "originalTitle": "你如何使用数据来驱动产品决策？\r",
+    "originalTitle": "你如何使用数据来驱动产品决策？",
     "dimension": "数据与效果评估",
     "dimensionId": 4,
     "difficulty": "进阶",
@@ -766,12 +1560,29 @@ export const questionBank = [
       "核验事件口径和采集链路，对照真实会话",
       "增加推广吸引新用户，靠扩大分母改善指标"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "验证数据口径。",
+      "交叉检查决策依据。"
+    ],
+    "focus": "埋点问题与真实用户行为变化的区别。",
+    "keywords": [
+      "数据质量",
+      "埋点",
+      "漏斗",
+      "口径"
+    ],
+    "explanations": {
+      "A": "指标异常可能来自埋点，尚未证明模型是原因。",
+      "B": "投诉存在滞后和选择偏差，也不能直接否定异常。",
+      "C": "先排除测量变化，避免根据不可比指标做错误决策。",
+      "D": "改变流量不能修正测量问题，反而增加混淆。"
+    }
   },
   {
     "id": "049",
     "number": 49,
-    "originalTitle": "描述一个 A/B 测试的例子。\r",
+    "originalTitle": "描述一个 A/B 测试的例子。",
     "dimension": "数据与效果评估",
     "dimensionId": 4,
     "difficulty": "高阶",
@@ -782,12 +1593,29 @@ export const questionBank = [
       "点击率上升就全量发布，将转接变化留到下一版本",
       "反复查看数据直到显著，再立即停止实验并全量发布"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "识别实验偏差。",
+      "判断上线证据充分性。"
+    ],
+    "focus": "随机分流、统计证据与护栏的联动。",
+    "keywords": [
+      "A/B测试",
+      "随机分流",
+      "置信区间",
+      "护栏"
+    ],
+    "explanations": {
+      "A": "点击收益不能脱离实验可靠性和业务损害单独解释。",
+      "B": "事后挑选窗口会增加偏差，不能证明稳定增量。",
+      "C": "样本不足与护栏恶化使上线证据不充分。",
+      "D": "未设计序贯方法的反复窥探可能提高误判率。"
+    }
   },
   {
     "id": "050",
     "number": 50,
-    "originalTitle": "如何确定产品的关键性能指标（KPI）？\r",
+    "originalTitle": "如何确定产品的关键性能指标（KPI）？",
     "dimension": "数据与效果评估",
     "dimensionId": 4,
     "difficulty": "进阶",
@@ -798,12 +1626,29 @@ export const questionBank = [
       "模型参数量与版本次数，配合技术博客阅读量",
       "有效解决率和处理时长，配合质量与成本护栏"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "把 KPI 对齐目标。",
+      "配置质量和成本护栏。"
+    ],
+    "focus": "活动指标与任务价值指标的区别。",
+    "keywords": [
+      "KPI",
+      "任务完成",
+      "采纳率",
+      "成本护栏"
+    ],
+    "explanations": {
+      "A": "活动量不证明工单得到有效解决。",
+      "B": "获客指标不能直接评估重复处理效率和服务质量。",
+      "C": "技术规模和输出活动不等于客户业务目标。",
+      "D": "主指标对应业务任务，护栏防止通过降质或增成本换取表面效率。"
+    }
   },
   {
     "id": "051",
     "number": 51,
-    "originalTitle": "你如何看待数据驱动与直觉驱动？\r",
+    "originalTitle": "你如何看待数据驱动与直觉驱动？",
     "dimension": "数据与效果评估",
     "dimensionId": 4,
     "difficulty": "进阶",
@@ -814,12 +1659,29 @@ export const questionBank = [
       "将经验形成假设，通过访谈和小任务验证",
       "因缺少数据暂停一切探索，直到自然产生足够数据"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "在数据不足时形成假设。",
+      "控制验证成本。"
+    ],
+    "focus": "经验假设与证据验证的关系。",
+    "keywords": [
+      "数据驱动",
+      "经验判断",
+      "假设",
+      "小规模验证"
+    ],
+    "explanations": {
+      "A": "单条支持证据可能来自确认偏差且缺少代表性。",
+      "B": "经验不能代替当前场景的需求证据。",
+      "C": "经验能形成方向，验证能限制偏差与投入风险。",
+      "D": "新场景常需主动研究与试验才能获得数据。"
+    }
   },
   {
     "id": "052",
     "number": 52,
-    "originalTitle": "描述一个你使用的数据分析工具。\r",
+    "originalTitle": "描述一个你使用的数据分析工具。",
     "dimension": "数据与效果评估",
     "dimensionId": 4,
     "difficulty": "进阶",
@@ -830,12 +1692,29 @@ export const questionBank = [
       "说明数据口径和洞察如何推动实际决策",
       "展示复杂图表数量，强调使用了最多的图表类型"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "建立一致口径。",
+      "解释洞察如何支持决策。"
+    ],
+    "focus": "分析工具熟练度与分析可信性的区别。",
+    "keywords": [
+      "数据分析",
+      "Tableau",
+      "口径",
+      "可视化"
+    ],
+    "explanations": {
+      "A": "操作知识不足以证明分析与解释能力。",
+      "B": "可读性有价值，但不能替代可靠口径和分析推理。",
+      "C": "从业务问题到数据证据再到行动，能检查分析质量与价值。",
+      "D": "图表数量与复杂度不代表结论可信或有用。"
+    }
   },
   {
     "id": "053",
     "number": 53,
-    "originalTitle": "如何确保 AI 产品的用户友好性？\r",
+    "originalTitle": "如何确保 AI 产品的用户友好性？",
     "dimension": "AI 产品设计",
     "dimensionId": 3,
     "difficulty": "进阶",
@@ -846,12 +1725,29 @@ export const questionBank = [
       "提供可编辑草稿、来源与发送确认和撤销",
       "隐藏引用与限制，只保留流畅回复以减少阅读负担"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "设计控制与反馈。",
+      "减少过度信任。"
+    ],
+    "focus": "简洁界面与可纠正体验的区别。",
+    "keywords": [
+      "用户友好性",
+      "可控性",
+      "撤销",
+      "来源"
+    ],
+    "explanations": {
+      "A": "学习负担过高，不能代替任务中的必要提示与控制。",
+      "B": "减少点击却可能增加不可控错误和后续损害。",
+      "C": "让客服理解与控制输出，降低误发和纠错成本。",
+      "D": "界面简洁不能以失去判断依据为代价。"
+    }
   },
   {
     "id": "054",
     "number": 54,
-    "originalTitle": "描述一个用户体验的失败案例。\r",
+    "originalTitle": "描述一个用户体验的失败案例。",
     "dimension": "AI 产品设计",
     "dimensionId": 3,
     "difficulty": "高阶",
@@ -862,12 +1758,29 @@ export const questionBank = [
       "只扩大原离线样本，不加入方言命令场景",
       "控制影响，复现方言问题并补充回归评估"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "识别分布差异。",
+      "设置回滚与切片评估。"
+    ],
+    "focus": "实验室均值与真实场景覆盖的区别。",
+    "keywords": [
+      "用户体验失败",
+      "分布偏移",
+      "回归测试",
+      "灰度"
+    ],
+    "explanations": {
+      "A": "均值可能掩盖关键群体退化，不能抵消实际任务失败。",
+      "B": "可能违背产品目标，且未解决已支持场景的退化。",
+      "C": "原分布扩样可能继续遗漏失败切片。",
+      "D": "先降低影响，再以实际失败场景完善评估和修复闭环。"
+    }
   },
   {
     "id": "055",
     "number": 55,
-    "originalTitle": "你如何看待用户隐私？\r",
+    "originalTitle": "你如何看待用户隐私？",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "进阶",
@@ -878,12 +1791,29 @@ export const questionBank = [
       "只处理必要文档，新用途另行核实和说明",
       "把通讯录交给供应商，由供应商独立决定保留方式"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "判断必要采集。",
+      "设计可选择的数据用途。"
+    ],
+    "focus": "数据最小化与事后安全保护的区别。",
+    "keywords": [
+      "用户隐私",
+      "最小化",
+      "用途限制",
+      "删除"
+    ],
+    "explanations": {
+      "A": "加密不能解决采集不必要与用途不明确的问题。",
+      "B": "笼统条款不能替代具体用途和适用要求的核实。",
+      "C": "按明确目的限制采集，避免把未来可能使用当作当前必要。",
+      "D": "产品方仍需管理数据处理责任与边界。"
+    }
   },
   {
     "id": "056",
     "number": 56,
-    "originalTitle": "如何进行用户教育和培训？\r",
+    "originalTitle": "如何进行用户教育和培训？",
     "dimension": "AI 产品设计",
     "dimensionId": 3,
     "difficulty": "进阶",
@@ -894,12 +1824,29 @@ export const questionBank = [
       "只发送技术原理文档，以术语掌握判断产品可用性",
       "在真实任务入口给示例，检验首次完成率"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "设计首次成功路径。",
+      "评估教学效果。"
+    ],
+    "focus": "功能讲解与任务型用户教育的区别。",
+    "keywords": [
+      "用户培训",
+      "首次成功",
+      "渐进引导",
+      "任务完成"
+    ],
+    "explanations": {
+      "A": "信息过载且阅读量不能证明任务成功。",
+      "B": "前置负担大，内容未必对应当下问题。",
+      "C": "原理学习不等于能完成当前业务任务。",
+      "D": "把学习嵌入具体任务，可验证是否帮助用户获得首个有效结果。"
+    }
   },
   {
     "id": "057",
     "number": 57,
-    "originalTitle": "描述一个用户反馈的成功案例。\r",
+    "originalTitle": "描述一个用户反馈的成功案例。",
     "dimension": "用户与场景洞察",
     "dimensionId": 2,
     "difficulty": "进阶",
@@ -910,12 +1857,29 @@ export const questionBank = [
       "重新训练全量数据，只检查整体准确率是否上升",
       "复现暗光错误，用切片评估验证修复后回访"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "复现具体条件。",
+      "验证修复不产生退化。"
+    ],
+    "focus": "单条反馈与可复现问题证据的关系。",
+    "keywords": [
+      "用户反馈",
+      "场景复现",
+      "回归评估",
+      "闭环"
+    ],
+    "explanations": {
+      "A": "缺少可复现信息，难推动具体质量改进。",
+      "B": "未经条件验证不能证明问题消失。",
+      "C": "整体提升可能掩盖暗光问题仍在或其他场景退化。",
+      "D": "把线索转为证据，同时检查改进是否成立并告知用户。"
+    }
   },
   {
     "id": "058",
     "number": 58,
-    "originalTitle": "当 AI 出现错误或误解时，你会如何向用户传达？\r",
+    "originalTitle": "当 AI 出现错误或误解时，你会如何向用户传达？",
     "dimension": "AI 产品设计",
     "dimensionId": 3,
     "difficulty": "进阶",
@@ -926,12 +1890,29 @@ export const questionBank = [
       "只提醒 AI 可能出错，不纠正已经确认的具体信息",
       "删除旧回复并继续自动回答，不告知错误影响"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "告知可确认影响。",
+      "提供修正与兜底。"
+    ],
+    "focus": "透明告知与未经证实的错误解释的区别。",
+    "keywords": [
+      "错误沟通",
+      "不确定性",
+      "纠错",
+      "人工转接"
+    ],
+    "explanations": {
+      "A": "未经证实的根因说明会误导用户和后续调查。",
+      "B": "区分已确认错误与未知原因，帮助用户安全恢复任务。",
+      "C": "通用提醒不足以修复当前误导。",
+      "D": "隐藏已确认问题会妨碍用户纠正先前决定。"
+    }
   },
   {
     "id": "059",
     "number": 59,
-    "originalTitle": "如何确保技术与产品的紧密结合？\r",
+    "originalTitle": "如何确保技术与产品的紧密结合？",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "进阶",
@@ -942,12 +1923,29 @@ export const questionBank = [
       "增加状态会议，但沿用各团队不同的成功标准",
       "共同用真实任务检验质量、延迟与成本"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "联合定义任务基线。",
+      "提前验证关键约束。"
+    ],
+    "focus": "技术演示与需求验收的区别。",
+    "keywords": [
+      "技术可行性",
+      "产品验收",
+      "原型",
+      "联合评审"
+    ],
+    "explanations": {
+      "A": "单一成本目标可能损害核心任务价值，应联合权衡。",
+      "B": "未验证成本前扩大承诺会产生交付与经营风险。",
+      "C": "沟通频率无法自动解决标准错配。",
+      "D": "用同一任务和约束进行讨论，避免演示表现与工程可行性脱节。"
+    }
   },
   {
     "id": "060",
     "number": 60,
-    "originalTitle": "描述一个技术驱动的产品创新。\r",
+    "originalTitle": "描述一个技术驱动的产品创新。",
     "dimension": "AI 产品设计",
     "dimensionId": 3,
     "difficulty": "进阶",
@@ -958,12 +1956,29 @@ export const questionBank = [
       "比较现有验证流程的摩擦与风险，验证新方案并设计失败回退",
       "用更复杂界面展示技术步骤，增加用户对先进性的感知"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "识别现有流程痛点。",
+      "比较替代方案。"
+    ],
+    "focus": "新技术能力与用户价值的映射。",
+    "keywords": [
+      "技术创新",
+      "用户价值",
+      "任务成本",
+      "替代方案"
+    ],
+    "explanations": {
+      "A": "受控演示不足以覆盖实际环境与失败条件。",
+      "B": "新颖性不能证明使用价值和适用性。",
+      "C": "技术能力需转为可验证的任务收益，且不能忽略失败时体验。",
+      "D": "展示复杂度不改善身份验证任务，可能增加负担。"
+    }
   },
   {
     "id": "061",
     "number": 61,
-    "originalTitle": "你如何看待技术的限制？\r",
+    "originalTitle": "你如何看待技术的限制？",
     "dimension": "AI 基础认知",
     "dimensionId": 1,
     "difficulty": "高阶",
@@ -974,12 +1989,29 @@ export const questionBank = [
       "仍宣称可回答全部问题，用免责声明承担误答风险",
       "停止所有任务服务，因为局部限制意味着产品无价值"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "设计降级方案。",
+      "判断承诺是否可验证。"
+    ],
+    "focus": "技术限制与可接受产品边界的区别。",
+    "keywords": [
+      "能力边界",
+      "降级",
+      "人工兜底",
+      "验收"
+    ],
+    "explanations": {
+      "A": "把限制转为明确边界与恢复路径，避免承诺超出能力。",
+      "B": "压制反馈会阻碍发现问题，并不提高可靠性。",
+      "C": "告知不能代替能力验证和合理范围设计。",
+      "D": "局部能力不足不必然否定有明确边界的可用任务。"
+    }
   },
   {
     "id": "062",
     "number": 62,
-    "originalTitle": "描述一个技术与产品的冲突例子。\r",
+    "originalTitle": "描述一个技术与产品的冲突例子。",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "高阶",
@@ -990,12 +2022,29 @@ export const questionBank = [
       "把所有模型预装，靠营销说明设备要求较高",
       "验证常用语言按需加载是否满足任务与资源限制"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "明确资源限制。",
+      "验证分阶段方案。"
+    ],
+    "focus": "折中方案与约束驱动方案的区别。",
+    "keywords": [
+      "范围取舍",
+      "资源约束",
+      "按需加载",
+      "验收"
+    ],
+    "explanations": {
+      "A": "形式折中不保证常用场景得到支持。",
+      "B": "压缩收益未验证，不能据此保证所有质量和资源指标。",
+      "C": "没有解决当前限制，还可能排除目标用户。",
+      "D": "方案直接回应内存限制，也保留必要任务覆盖和体验验证。"
+    }
   },
   {
     "id": "063",
     "number": 63,
-    "originalTitle": "如何确保技术的可持续性？\r",
+    "originalTitle": "如何确保技术的可持续性？",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "进阶",
@@ -1006,12 +2055,29 @@ export const questionBank = [
       "隔离调用接口，记录版本与评估基线，设置变更验证和回滚",
       "只保存上线时的截图，作为以后效果一致的证明"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "管理模型依赖。",
+      "定义回归和回滚。"
+    ],
+    "focus": "短期可运行与长期可维护的区别。",
+    "keywords": [
+      "技术可持续性",
+      "版本管理",
+      "回归测试",
+      "模块化"
+    ],
+    "explanations": {
+      "A": "自动变化可能破坏输出与成本，缺少回归控制。",
+      "B": "耦合增加替换和维护成本，不利于长期演进。",
+      "C": "把外部变化纳入可控维护流程，而非只依赖供应商承诺。",
+      "D": "截图不能验证真实任务或服务变化。"
+    }
   },
   {
     "id": "064",
     "number": 64,
-    "originalTitle": "描述当前 AI 行业的主要趋势。\r",
+    "originalTitle": "描述当前 AI 行业的主要趋势。",
     "dimension": "AI 基础认知",
     "dimensionId": 1,
     "difficulty": "进阶",
@@ -1022,12 +2088,29 @@ export const questionBank = [
       "只看模型支持端侧导出，就认定业务效果不会变化",
       "只比较单次网络费用，不计设备资源和维护成本"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "比较部署约束。",
+      "核实趋势证据。"
+    ],
+    "focus": "技术趋势适用条件与普遍化结论的区别。",
+    "keywords": [
+      "边缘AI",
+      "云推理",
+      "技术趋势",
+      "部署约束"
+    ],
+    "explanations": {
+      "A": "忽略硬件与质量限制，不能从趋势推导唯一架构。",
+      "B": "趋势需对应具体约束，设备端和云端各有适用条件。",
+      "C": "可导出不等于目标设备质量、速度和维护均达标。",
+      "D": "成本口径不完整，可能得到错误收益判断。"
+    }
   },
   {
     "id": "065",
     "number": 65,
-    "originalTitle": "哪些行业最适合应用 AI？\r",
+    "originalTitle": "哪些行业最适合应用 AI？",
     "dimension": "用户与场景洞察",
     "dimensionId": 2,
     "difficulty": "高阶",
@@ -1038,12 +2121,29 @@ export const questionBank = [
       "市场规模最大但数据不可获取、责任边界不清的场景",
       "技术最复杂且暂时没有明确用户任务的场景"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "评估数据与错误成本。",
+      "判断价值可验证性。"
+    ],
+    "focus": "行业热度与场景可落地性的区别。",
+    "keywords": [
+      "场景选择",
+      "数据可用性",
+      "错误成本",
+      "可行性"
+    ],
+    "explanations": {
+      "A": "行业热度不能替代采用意愿与真实问题。",
+      "B": "同时满足需求、数据、验证和风险约束，较便于形成闭环。",
+      "C": "规模不能弥补数据和交付条件缺失。",
+      "D": "技术挑战不等于产品需求和可验证收益。"
+    }
   },
   {
     "id": "066",
     "number": 66,
-    "originalTitle": "描述一个成功的 AI 产品案例。\r",
+    "originalTitle": "描述一个成功的 AI 产品案例。",
     "dimension": "AI 基础认知",
     "dimensionId": 1,
     "difficulty": "进阶",
@@ -1054,12 +2154,29 @@ export const questionBank = [
       "只要没有直接销售，就说明技术案例没有任何价值",
       "只要击败顶尖人类，就足以证明所有应用具备商业价值"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "界定案例证明范围。",
+      "避免泛化外推。"
+    ],
+    "focus": "技术里程碑与可持续商业成功的区别。",
+    "keywords": [
+      "AlphaGo",
+      "技术验证",
+      "商业价值",
+      "证据边界"
+    ],
+    "explanations": {
+      "A": "明确任务边界并不否定在该任务上的有效突破。",
+      "B": "技术成绩与商业结果属于不同证据，不能直接互相替代。",
+      "C": "技术验证有价值，商业化不是唯一评价维度。",
+      "D": "从特定任务外推到所有场景与经营结果，超出证据范围。"
+    }
   },
   {
     "id": "067",
     "number": 67,
-    "originalTitle": "描述一个失败的 AI 产品案例。\r",
+    "originalTitle": "描述一个失败的 AI 产品案例。",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "高阶",
@@ -1070,12 +2187,29 @@ export const questionBank = [
       "先开放全部流量，用品牌说明替代安全验证",
       "只收集正常用户问候语，以流畅回复证明适合公测"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "识别开放交互风险。",
+      "设计防护和处置。"
+    ],
+    "focus": "正常交互测试与恶意滥用测试的区别。",
+    "keywords": [
+      "Tay",
+      "滥用测试",
+      "内容安全",
+      "应急停用"
+    ],
+    "explanations": {
+      "A": "需把恶意输入作为真实部署条件，而非仅验证友好用户对话。",
+      "B": "未经控制的反馈可能污染输出并放大滥用。",
+      "C": "品牌与说明不能替代预防、监测和响应。",
+      "D": "友好输入不能覆盖对抗性和恶意交互。"
+    }
   },
   {
     "id": "068",
     "number": 68,
-    "originalTitle": "AI 对就业的影响是什么？\r",
+    "originalTitle": "AI 对就业的影响是什么？",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "进阶",
@@ -1086,12 +2220,29 @@ export const questionBank = [
       "拆解任务和监督责任，再安排分工与培训",
       "认为所有任务都不能变化，仅把工具当宣传素材"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "拆解岗位任务。",
+      "评估再分工与培训。"
+    ],
+    "focus": "任务自动化与岗位整体替代的区别。",
+    "keywords": [
+      "就业影响",
+      "任务拆解",
+      "人机协作",
+      "培训"
+    ],
+    "explanations": {
+      "A": "演示未覆盖异常、复核和责任，减员推断依据不足。",
+      "B": "忽略任务替代和转型成本，结论过于单向。",
+      "C": "岗位由多类任务组成，自动化某项任务不等于整体替代。",
+      "D": "同样忽略实际辅助机会，缺少任务级评估。"
+    }
   },
   {
     "id": "069",
     "number": 69,
-    "originalTitle": "描述一个你面临的困难和解决方法。\r",
+    "originalTitle": "描述一个你面临的困难和解决方法。",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "高阶",
@@ -1102,12 +2253,29 @@ export const questionBank = [
       "先建立标注标准与抽查机制，用固定评估集验证修复收益",
       "删除所有难分类样本，只在剩余简单样本上报告效果"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "设计误差分析。",
+      "验证数据修复收益。"
+    ],
+    "focus": "模型能力不足与标签质量问题的区分。",
+    "keywords": [
+      "数据质量",
+      "标签一致性",
+      "误差分析",
+      "对照实验"
+    ],
+    "explanations": {
+      "A": "错误监督信号仍然存在，更大模型不自动修复标签。",
+      "B": "多个变量同时变化，无法判断哪项修复有效。",
+      "C": "已发现数据质量信号，应先形成可控修复与比较方法。",
+      "D": "改变评估分布会掩盖真实问题，造成选择偏差。"
+    }
   },
   {
     "id": "070",
     "number": 70,
-    "originalTitle": "你如何进行时间管理？\r",
+    "originalTitle": "你如何进行时间管理？",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "进阶",
@@ -1118,12 +2286,29 @@ export const questionBank = [
       "先完成所有小任务，以完成数量体现效率",
       "先解关键阻断，设置专注时间和其他任务时限"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "按影响和依赖排序。",
+      "保护专注时间。"
+    ],
+    "focus": "任务忙碌程度与关键路径优先级的区别。",
+    "keywords": [
+      "时间管理",
+      "关键路径",
+      "优先级",
+      "时间块"
+    ],
+    "explanations": {
+      "A": "频繁切换增加认知成本，也不确保关键任务解决。",
+      "B": "到达顺序不能代表对交付的影响和紧急性。",
+      "C": "任务数量可能掩盖关键路径未推进。",
+      "D": "依据影响与依赖分配注意力，同时保持其余事项可跟踪。"
+    }
   },
   {
     "id": "071",
     "number": 71,
-    "originalTitle": "描述一个团队成员成长的例子。\r",
+    "originalTitle": "描述一个团队成员成长的例子。",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "进阶",
@@ -1134,12 +2319,29 @@ export const questionBank = [
       "先报名最多课程，以证书数量决定何时独立负责",
       "从受辅导的小任务开始，以交付质量逐步扩责"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "设计渐进任务。",
+      "用交付质量验证学习。"
+    ],
+    "focus": "培训参与与可验证能力成长的区别。",
+    "keywords": [
+      "团队培养",
+      "辅导",
+      "任务梯度",
+      "反馈"
+    ],
+    "explanations": {
+      "A": "任务跨度和风险过大，缺少必要辅导与验证。",
+      "B": "年限不能替代目标技能的练习和评价。",
+      "C": "证书不能直接证明实际任务能力。",
+      "D": "成长基于实践、反馈和可观察能力，而非仅凭学习投入。"
+    }
   },
   {
     "id": "072",
     "number": 72,
-    "originalTitle": "你如何保持持续学习？\r",
+    "originalTitle": "你如何保持持续学习？",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "进阶",
@@ -1150,12 +2352,29 @@ export const questionBank = [
       "每天收藏大量相关链接，以收藏数量作为学习成果",
       "追逐所有新发布模型，不设置与当前问题相关的目标"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "选择目标问题。",
+      "用实践检验理解。"
+    ],
+    "focus": "信息消费与可复用学习成果的区别。",
+    "keywords": [
+      "持续学习",
+      "实验记录",
+      "知识复盘",
+      "迁移"
+    ],
+    "explanations": {
+      "A": "术语记忆不能替代评估设计和结果解释。",
+      "B": "从目标问题到实践证据再到复盘，能够检查理解和应用。",
+      "C": "信息积累不证明理解，也不形成应用反馈。",
+      "D": "分散注意力，缺少针对短板的验证闭环。"
+    }
   },
   {
     "id": "073",
     "number": 73,
-    "originalTitle": "描述一个压力管理的例子。\r",
+    "originalTitle": "描述一个压力管理的例子。",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "高阶",
@@ -1166,12 +2385,29 @@ export const questionBank = [
       "明确阻断与责任，调整承诺、资源和工作节奏",
       "维持全部承诺，要求每个人自行延长工时"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "重排关键路径。",
+      "管理承诺和团队负荷。"
+    ],
+    "focus": "压力缓解与交付风险处置的关系。",
+    "keywords": [
+      "压力管理",
+      "风险沟通",
+      "资源协调",
+      "范围调整"
+    ],
+    "explanations": {
+      "A": "延迟沟通会降低调整与协作空间，影响信任。",
+      "B": "情绪支持有价值，但不能代替风险和任务治理。",
+      "C": "同时处理交付现实与团队负荷，避免靠加班掩盖风险。",
+      "D": "持续高负荷可能增加错误，且没有解决范围与资源约束。"
+    }
   },
   {
     "id": "074",
     "number": 74,
-    "originalTitle": "你认为未来的 AI 趋势是什么？\r",
+    "originalTitle": "你认为未来的 AI 趋势是什么？",
     "dimension": "AI 基础认知",
     "dimensionId": 1,
     "difficulty": "高阶",
@@ -1182,12 +2418,29 @@ export const questionBank = [
       "给出 AGI 必定实现的日期，据此承诺全部自动化",
       "以最新话题热度确定唯一方向，取消后续复评"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "识别预测不确定性。",
+      "设置策略调整信号。"
+    ],
+    "focus": "未来预测与可检验规划假设的区别。",
+    "keywords": [
+      "趋势预测",
+      "情景规划",
+      "技术成熟度",
+      "决策信号"
+    ],
+    "explanations": {
+      "A": "承认不确定性并形成可调整策略，比固定预测更可执行。",
+      "B": "不同趋势成熟度与业务匹配不同，平均投入缺少依据。",
+      "C": "缺少可证实时间依据，也忽略业务适用与治理约束。",
+      "D": "热度不能替代可持续证据，且忽略技术变化。"
+    }
   },
   {
     "id": "075",
     "number": 75,
-    "originalTitle": "描述一个未来的 AI 应用场景。\r",
+    "originalTitle": "描述一个未来的 AI 应用场景。",
     "dimension": "AI 产品设计",
     "dimensionId": 3,
     "difficulty": "高阶",
@@ -1198,12 +2451,29 @@ export const questionBank = [
       "只衡量用户聊天时长，把高参与视为医疗效果",
       "先验证信息整理与辅助流程，明确专业人员复核和使用边界"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "限定用途。",
+      "设计专业复核与验证。"
+    ],
+    "focus": "高风险助手的支持范围与专业责任边界。",
+    "keywords": [
+      "医疗助手",
+      "人类监督",
+      "风险边界",
+      "验证"
+    ],
+    "explanations": {
+      "A": "提示不能替代证据、专业复核与用途控制。",
+      "B": "演示不足以证明临床适用与安全，责任边界不清。",
+      "C": "参与指标不能证明健康结果或专业适用性。",
+      "D": "选择可验证支持任务，不将未经证实能力直接用于高风险决定。"
+    }
   },
   {
     "id": "076",
     "number": 76,
-    "originalTitle": "你如何看待 AI 与人的关系？\r",
+    "originalTitle": "你如何看待 AI 与人的关系？",
     "dimension": "AI 产品设计",
     "dimensionId": 3,
     "difficulty": "进阶",
@@ -1214,12 +2484,29 @@ export const questionBank = [
       "让用户同意免责声明后由 AI 自主确定全部退款",
       "让 AI 自动完成退款，以减少人工参与证明协作有效"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "按风险分配职责。",
+      "保留接管能力。"
+    ],
+    "focus": "人机协作与自动化程度的区别。",
+    "keywords": [
+      "人机协作",
+      "自动化边界",
+      "确认",
+      "接管"
+    ],
+    "explanations": {
+      "A": "将高影响操作保留可控责任与审核，符合当前验证不足条件。",
+      "B": "执行限制不必否定有边界的低风险辅助价值。",
+      "C": "同意不能替代授权、评估和执行边界。",
+      "D": "自动化程度不是协作效果，高影响操作需可靠性与授权证据。"
+    }
   },
   {
     "id": "077",
     "number": 77,
-    "originalTitle": "描述一个 AI 的伦理问题。\r",
+    "originalTitle": "描述一个 AI 的伦理问题。",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "高阶",
@@ -1230,12 +2517,29 @@ export const questionBank = [
       "比较实际收益、隐私影响与低侵入替代方案",
       "先收集所有人员面部数据，等出现投诉再调整"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "核实必要性。",
+      "比较低侵入替代方案。"
+    ],
+    "focus": "技术便利与隐私损害的权衡。",
+    "keywords": [
+      "面部识别",
+      "必要性",
+      "数据最小化",
+      "用途限制"
+    ],
+    "explanations": {
+      "A": "速度不能涵盖隐私、选择权与用途扩张风险。",
+      "B": "安全保护不能替代对采集和用途本身的必要性判断。",
+      "C": "技术可用不代表必要，需要把便利和数据风险放在同一决策中。",
+      "D": "先扩大敏感数据暴露，无法替代上线前审查。"
+    }
   },
   {
     "id": "078",
     "number": 78,
-    "originalTitle": "你认为 AI 的最大挑战是什么？\r",
+    "originalTitle": "你认为 AI 的最大挑战是什么？",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "高阶",
@@ -1246,12 +2550,29 @@ export const questionBank = [
       "认定模型越大风险越低，因此只需提高参数规模",
       "认定三类应用必须使用完全相同的风险指标和门槛"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "按场景识别风险。",
+      "避免技术标签替代分析。"
+    ],
+    "focus": "泛称最大挑战与场景风险优先级的区别。",
+    "keywords": [
+      "风险优先级",
+      "可靠性",
+      "公平性",
+      "可解释性"
+    ],
+    "explanations": {
+      "A": "解释不能消除隐私、错误或群体损害。",
+      "B": "可靠性、公平性等重要性随任务变化，不存在脱离场景的唯一排序。",
+      "C": "规模不能保证可靠或公平，也不替代场景评估。",
+      "D": "不同后果与群体需要不同评价，统一门槛可能错配。"
+    }
   },
   {
     "id": "079",
     "number": 79,
-    "originalTitle": "你有没有参与开源项目？\r",
+    "originalTitle": "你有没有参与开源项目？",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "进阶",
@@ -1262,12 +2583,29 @@ export const questionBank = [
       "展示安装成功截图，以运行库证明维护经验",
       "列出收藏过的仓库数量，把收藏视为参与项目"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "区分使用和贡献。",
+      "呈现可验证协作。"
+    ],
+    "focus": "开源使用经历与真实贡献证据的区别。",
+    "keywords": [
+      "开源贡献",
+      "代码审查",
+      "文档",
+      "问题复现"
+    ],
+    "explanations": {
+      "A": "贡献能追溯且责任明确，不夸大项目参与范围。",
+      "B": "混淆贡献归属，无法验证个人参与。",
+      "C": "使用与维护是不同层级，截图不足以支持维护主张。",
+      "D": "收藏不等于贡献或协作，证据与主张不匹配。"
+    }
   },
   {
     "id": "080",
     "number": 80,
-    "originalTitle": "描述你理想中的 AI 产品。\r",
+    "originalTitle": "描述你理想中的 AI 产品。",
     "dimension": "AI 产品设计",
     "dimensionId": 3,
     "difficulty": "进阶",
@@ -1278,12 +2616,29 @@ export const questionBank = [
       "尽可能采集用户所有声音和行为，以数据量保证理解",
       "限定表达整理任务，允许纠正并验证收益"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "缩小首个场景。",
+      "设定边界与效果标准。"
+    ],
+    "focus": "理想产品愿景与可验证任务定义的区别。",
+    "keywords": [
+      "产品愿景",
+      "MVP",
+      "任务定义",
+      "情绪识别"
+    ],
+    "explanations": {
+      "A": "未经验证的诊断超出当前任务和专业边界。",
+      "B": "聊天量不证明识别准确，更不能支持“所有情绪”的承诺。",
+      "C": "数据量不保证情绪判断，且扩大隐私风险。",
+      "D": "把抽象愿景变成有边界的任务，避免将情绪推断当事实。"
+    }
   },
   {
     "id": "081",
     "number": 81,
-    "originalTitle": "你如何看待多元化和包容性？\r",
+    "originalTitle": "你如何看待多元化和包容性？",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "进阶",
@@ -1294,12 +2649,29 @@ export const questionBank = [
       "统一所有用户操作流程，以界面一致性避免差别对待",
       "只公布团队背景比例，以人员多样证明所有用户已被覆盖"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "识别参与障碍。",
+      "验证不同用户可用性。"
+    ],
+    "focus": "人口多样性与实际包容机制的区别。",
+    "keywords": [
+      "包容性",
+      "无障碍",
+      "参与机制",
+      "样本覆盖"
+    ],
+    "explanations": {
+      "A": "高活跃样本易遗漏受到限制或已退出的群体。",
+      "B": "包容需体现在决策和可用性，而非仅展示团队构成。",
+      "C": "统一流程可能保留某些群体的实际使用障碍。",
+      "D": "团队构成不能自动代表用户研究覆盖。"
+    }
   },
   {
     "id": "082",
     "number": 82,
-    "originalTitle": "描述一个你认为有潜力的 AI 应用场景。\r",
+    "originalTitle": "描述一个你认为有潜力的 AI 应用场景。",
     "dimension": "用户与场景洞察",
     "dimensionId": 2,
     "difficulty": "高阶",
@@ -1310,12 +2682,29 @@ export const questionBank = [
       "把提醒使用率当作报警可靠性，合并承诺全部功能",
       "只优化报警页面颜色，不检查信号与联系人是否收到"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "验证关键风险。",
+      "设计异常和人工响应链路。"
+    ],
+    "focus": "照护便利功能与紧急场景可靠性的区别。",
+    "keywords": [
+      "老年照护",
+      "跌倒检测",
+      "误报漏报",
+      "响应闭环"
+    ],
+    "explanations": {
+      "A": "缺少可追溯性和可配置边界，难以核实异常处理。",
+      "B": "紧急场景需完整检测和响应证据，不能由普通提醒效果代替。",
+      "C": "两个任务的风险和指标不同，使用率不足以支持报警。",
+      "D": "界面不能替代检测准确性和实际响应闭环。"
+    }
   },
   {
     "id": "083",
     "number": 83,
-    "originalTitle": "你认为 AI 产品经理应该具备哪些品质？\r",
+    "originalTitle": "你认为 AI 产品经理应该具备哪些品质？",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "进阶",
@@ -1326,12 +2715,29 @@ export const questionBank = [
       "展示精美界面稿，以视觉完成度替代需求与效果",
       "列出掌握的模型缩写，用术语数量证明产品判断"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "辨认产品判断证据。",
+      "验证跨职能能力。"
+    ],
+    "focus": "能力标签与行为证据的区别。",
+    "keywords": [
+      "AI产品经理",
+      "需求定义",
+      "效果评估",
+      "责任边界"
+    ],
+    "explanations": {
+      "A": "行为和证据覆盖产品判断、技术理解与协作，便于追问。",
+      "B": "信息接触时长不能证明完成了任务或验证。",
+      "C": "界面是部分成果，不能覆盖技术与业务决策。",
+      "D": "知识记忆不足以证明实际取舍和验证能力。"
+    }
   },
   {
     "id": "084",
     "number": 84,
-    "originalTitle": "你如何看待 AI 在教育领域的应用？\r",
+    "originalTitle": "你如何看待 AI 在教育领域的应用？",
     "dimension": "AI 产品设计",
     "dimensionId": 3,
     "difficulty": "高阶",
@@ -1342,12 +2748,29 @@ export const questionBank = [
       "以停留时长增加直接认定教学效果显著提升",
       "只统计生成讲解字数，用内容数量表示知识增长"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "定义教育效果指标。",
+      "防止单一活动指标误导。"
+    ],
+    "focus": "学习参与与学习效果的区别。",
+    "keywords": [
+      "教育AI",
+      "学习效果",
+      "个性化",
+      "评估"
+    ],
+    "explanations": {
+      "A": "教育价值需连接掌握与应用，停留只是辅助信号。",
+      "B": "优化参与可能与学习目标脱节。",
+      "C": "更久可能来自困惑或低效，不能单独证明学习。",
+      "D": "产出量不等于理解、迁移或学习进步。"
+    }
   },
   {
     "id": "085",
     "number": 85,
-    "originalTitle": "你最近读的一本书是什么？\r",
+    "originalTitle": "你最近读的一本书是什么？",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "进阶",
@@ -1358,12 +2781,29 @@ export const questionBank = [
       "评价书中证据与局限，提出可验证应用假设",
       "逐章复述内容，认为完整记忆足以证明产品洞察"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "区分作者观点和证据。",
+      "形成实践假设。"
+    ],
+    "focus": "阅读摘要与批判性应用的区别。",
+    "keywords": [
+      "阅读复盘",
+      "证据评价",
+      "历史语境",
+      "应用假设"
+    ],
+    "explanations": {
+      "A": "权威身份不能替代事实检验和时间背景。",
+      "B": "损害可信性，也无法支持后续追问验证。",
+      "C": "既理解内容也评估适用性，不把观点直接当当前事实。",
+      "D": "复述无法展示证据评价和对具体问题的应用。"
+    }
   },
   {
     "id": "086",
     "number": 86,
-    "originalTitle": "你如何看待行业的持续发展？\r",
+    "originalTitle": "你如何看待行业的持续发展？",
     "dimension": "商业与增长",
     "dimensionId": 6,
     "difficulty": "高阶",
@@ -1374,12 +2814,29 @@ export const questionBank = [
       "综合留存价值、单位经济和风险成本，验证可持续改进路径",
       "暂停所有创新，因为任何风险都说明行业不可持续"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "评估价值和负担。",
+      "设置持续复评。"
+    ],
+    "focus": "增长潜力与持续价值的区别。",
+    "keywords": [
+      "行业发展",
+      "可持续性",
+      "用户价值",
+      "治理成本"
+    ],
+    "explanations": {
+      "A": "融资能延长运营，但不能证明持续需求和单位经济。",
+      "B": "忽视已存在的质量与经营压力，可能扩大损失。",
+      "C": "增长只是信号，还需经营与质量能长期支撑用户价值。",
+      "D": "风险需要评估和治理，不自动否定所有有边界的创新。"
+    }
   },
   {
     "id": "087",
     "number": 87,
-    "originalTitle": "请描述一个你认为有潜力但尚未被充分利用的 AI 应用场景。\r",
+    "originalTitle": "请描述一个你认为有潜力但尚未被充分利用的 AI 应用场景。",
     "dimension": "用户与场景洞察",
     "dimensionId": 2,
     "difficulty": "高阶",
@@ -1390,12 +2847,29 @@ export const questionBank = [
       "默认持续录音，以更多数据确保心理状态预测可信",
       "以聊天时长最大化为目标，鼓励用户依赖系统完成所有求助"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "核实需求与风险。",
+      "限定非诊断用途。"
+    ],
+    "focus": "敏感健康推断与有边界支持任务的区别。",
+    "keywords": [
+      "精神健康",
+      "敏感数据",
+      "需求验证",
+      "专业边界"
+    ],
+    "explanations": {
+      "A": "主观认同不等于诊断证据，容易扩大误判影响。",
+      "B": "先验证低风险支持价值，不把未经证实的识别用于健康决定。",
+      "C": "数据增加不能保证判断准确，且扩大敏感采集风险。",
+      "D": "参与不能替代支持效果，过度依赖可能削弱专业求助路径。"
+    }
   },
   {
     "id": "088",
     "number": 88,
-    "originalTitle": "你如何看待行业的标准化？\r",
+    "originalTitle": "你如何看待行业的标准化？",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "进阶",
@@ -1406,12 +2880,29 @@ export const questionBank = [
       "格式支持比较，场景质量仍需单独验证",
       "可以，统一格式意味着不同应用的质量要求完全相同"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "界定标准作用。",
+      "维持场景评估。"
+    ],
+    "focus": "标准遵循与实际效果验证的区别。",
+    "keywords": [
+      "行业标准",
+      "互操作性",
+      "测试规范",
+      "验收"
+    ],
+    "explanations": {
+      "A": "否定其全部价值同样过度，标准能支持沟通和比较。",
+      "B": "自填资料不能替代独立测试和验收。",
+      "C": "互操作和一致记录不等于任务适用或全面安全。",
+      "D": "格式一致不消除任务后果和用户需求差异。"
+    }
   },
   {
     "id": "089",
     "number": 89,
-    "originalTitle": "请给出一个你认为 AI 产品经理具备的重要品质。\r",
+    "originalTitle": "请给出一个你认为 AI 产品经理具备的重要品质。",
     "dimension": "用户与场景洞察",
     "dimensionId": 2,
     "difficulty": "进阶",
@@ -1422,12 +2913,29 @@ export const questionBank = [
       "立即申请训练预算，以执行需求证明用户导向",
       "只讨论模型参数规模，暂不研究用户怎样使用结果"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "识别问题。",
+      "比较可行方案与边界。"
+    ],
+    "focus": "用户请求与技术方案之间的产品判断。",
+    "keywords": [
+      "用户洞察",
+      "技术理解",
+      "方案比较",
+      "任务目标"
+    ],
+    "explanations": {
+      "A": "把技术请求还原为目标，选择满足任务的可行方案。",
+      "B": "也缺少场景分析，某些任务可能有合理适配需求。",
+      "C": "执行提出的方案不等于理解真实问题与成本。",
+      "D": "技术规模不能代替任务与工作流判断。"
+    }
   },
   {
     "id": "090",
     "number": 90,
-    "originalTitle": "你认为 AI 产品经理在未来五年内需要掌握哪些新技能？\r",
+    "originalTitle": "你认为 AI 产品经理在未来五年内需要掌握哪些新技能？",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "进阶",
@@ -1438,12 +2946,29 @@ export const questionBank = [
       "按知识助手任务补短板，用小项目验证应用",
       "只练习面试背诵，不实践任何数据与效果判断"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "识别当前短板。",
+      "按任务制定练习。"
+    ],
+    "focus": "固定技术清单与岗位任务驱动的学习规划。",
+    "keywords": [
+      "技能规划",
+      "评估设计",
+      "数据治理",
+      "人机交互"
+    ],
+    "explanations": {
+      "A": "预测清单缺少时点，也不保证匹配当前岗位职责。",
+      "B": "发布信息不足以完成需求、评估和落地工作。",
+      "C": "技能选择对应目标岗位的实际责任，不机械追逐模型名词。",
+      "D": "无法证明能将知识应用到实际产品决策。"
+    }
   },
   {
     "id": "091",
     "number": 91,
-    "originalTitle": "你如何看待数据隐私？\r",
+    "originalTitle": "你如何看待数据隐私？",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "高阶",
@@ -1454,12 +2979,29 @@ export const questionBank = [
       "将所有治理责任交给模型服务商，产品侧不再管理",
       "只要没有公开数据，就不需要管理内部访问与保留"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "限制用途和保留。",
+      "区分技术与组织措施。"
+    ],
+    "focus": "隐私保护技术与数据治理全流程的区别。",
+    "keywords": [
+      "数据隐私",
+      "保留期限",
+      "访问控制",
+      "差分隐私"
+    ],
+    "explanations": {
+      "A": "未来技术计划不消除当前原始数据的暴露和用途问题。",
+      "B": "技术措施不能替代用途、权限和生命周期治理。",
+      "C": "产品仍需明确数据如何传递、使用与删除。",
+      "D": "内部访问同样可能造成滥用或泄露。"
+    }
   },
   {
     "id": "092",
     "number": 92,
-    "originalTitle": "如何确保 AI 产品的可持续性？\r",
+    "originalTitle": "如何确保 AI 产品的可持续性？",
     "dimension": "商业与增长",
     "dimensionId": 6,
     "difficulty": "高阶",
@@ -1470,12 +3012,29 @@ export const questionBank = [
       "只把模型替换成更新版本，以新技术保证经营可持续",
       "持续扩大获客，以用户更多证明成本问题会自行解决"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "检查经营与维护成本。",
+      "评估风险外部性。"
+    ],
+    "focus": "技术、商业与治理的共同可持续性。",
+    "keywords": [
+      "可持续性",
+      "单位经济",
+      "维护成本",
+      "风险治理"
+    ],
+    "explanations": {
+      "A": "可能损害采用，也没有解决技术持续性。",
+      "B": "同时处理商业与技术脆弱性，避免只维持表面满意。",
+      "C": "升级不必然降低成本或稳定维护，需实际验证。",
+      "D": "使用越多可能损失越大，且单人依赖未消除。"
+    }
   },
   {
     "id": "093",
     "number": 93,
-    "originalTitle": "描述一个 AI 的社会影响。\r",
+    "originalTitle": "描述一个 AI 的社会影响。",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "高阶",
@@ -1486,12 +3045,29 @@ export const questionBank = [
       "只发布总体效果提升，用平均收益抵消群体差异",
       "分群评估收益、负担和可及性，验证改善"
     ],
-    "correctAnswer": "D"
+    "correctAnswer": "D",
+    "assessmentPoints": [
+      "识别受益和受损群体。",
+      "评估长期影响。"
+    ],
+    "focus": "平均效果与社会影响分布的区别。",
+    "keywords": [
+      "社会影响",
+      "可及性",
+      "群体评估",
+      "成本分布"
+    ],
+    "explanations": {
+      "A": "下载不证明持续受益，也可能隐藏退出和使用障碍。",
+      "B": "企业收益不是全部受影响群体的结果。",
+      "C": "聚合结论可能掩盖实际受损和访问障碍。",
+      "D": "社会影响包含分布与外部后果，平均效果无法覆盖全部群体。"
+    }
   },
   {
     "id": "094",
     "number": 94,
-    "originalTitle": "你如何看待 AI 的规模化？\r",
+    "originalTitle": "你如何看待 AI 的规模化？",
     "dimension": "AI 产品设计",
     "dimensionId": 3,
     "difficulty": "高阶",
@@ -1502,12 +3078,29 @@ export const questionBank = [
       "按质量、容量和权限门槛逐步扩流并支持回滚",
       "一次性开放所有部门，以试点平均分作为长期保证"
     ],
-    "correctAnswer": "C"
+    "correctAnswer": "C",
+    "assessmentPoints": [
+      "设计扩展门槛。",
+      "监测负载与失效。"
+    ],
+    "focus": "规模增长与质量、成本和治理的容量匹配。",
+    "keywords": [
+      "规模化",
+      "容量",
+      "质量护栏",
+      "回滚"
+    ],
+    "explanations": {
+      "A": "单一效率优化可能损害核心价值和安全。",
+      "B": "容量改善不能代替任务质量和权限适配。",
+      "C": "规模增加会改变负载和任务分布，需要分阶段保持可控。",
+      "D": "试点分布和全量不同，容量与权限风险未充分验证。"
+    }
   },
   {
     "id": "095",
     "number": 95,
-    "originalTitle": "描述一个 AI 的商业模型。\r",
+    "originalTitle": "描述一个 AI 的商业模型。",
     "dimension": "商业与增长",
     "dimensionId": 6,
     "difficulty": "高阶",
@@ -1518,12 +3111,29 @@ export const questionBank = [
       "按账号低价不限量，忽略极端用量以降低购买门槛",
       "只按模型参数量收费，不说明对客户任务的价值"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "选择计费单位。",
+      "评估客户价值与毛利。"
+    ],
+    "focus": "订阅收入与用量相关服务成本的匹配。",
+    "keywords": [
+      "SaaS",
+      "按量计费",
+      "推理成本",
+      "毛利"
+    ],
+    "explanations": {
+      "A": "收入结构需匹配价值与服务成本分布，套餐可通过试验调整。",
+      "B": "一次性收入可能无法覆盖持续推理与维护成本。",
+      "C": "可能吸引高成本使用，不能保证可持续毛利。",
+      "D": "客户价值未必与参数量一致，计费单位难解释。"
+    }
   },
   {
     "id": "096",
     "number": 96,
-    "originalTitle": "当 AI 决策与人类决策发生冲突时，你会如何处理？\r",
+    "originalTitle": "当 AI 决策与人类决策发生冲突时，你会如何处理？",
     "dimension": "项目落地与协作",
     "dimensionId": 5,
     "difficulty": "高阶",
@@ -1534,12 +3144,29 @@ export const questionBank = [
       "只要模型置信分数高，就直接覆盖专家意见",
       "始终采纳任意人工意见，不再核查证据与结果"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "处理意见冲突。",
+      "核验证据与接管。"
+    ],
+    "focus": "模型自信、专家判断与责任授权的关系。",
+    "keywords": [
+      "人类监督",
+      "证据核验",
+      "责任授权",
+      "冲突处置"
+    ],
+    "explanations": {
+      "A": "解释长度不证明依据可靠，也不解决执行责任。",
+      "B": "未定位冲突时先控制损害，依据证据和授权处理而非单方自信。",
+      "C": "置信不一定校准，也不等于业务授权和正确性。",
+      "D": "人类也可能错误，监督需要证据与可追踪机制。"
+    }
   },
   {
     "id": "097",
     "number": 97,
-    "originalTitle": "能详细说下 CLIP 模型吗？\r",
+    "originalTitle": "能详细说下 CLIP 模型吗？",
     "dimension": "AI 基础认知",
     "dimensionId": 1,
     "difficulty": "进阶",
@@ -1550,12 +3177,29 @@ export const questionBank = [
       "将图片转换为随机噪声，让 CLIP 迭代去噪得到类别",
       "让 CLIP 生成商品描述，再用描述文本匹配类别"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "理解图文编码。",
+      "判断零样本分类边界。"
+    ],
+    "focus": "CLIP 对比表征与生成式任务的区别。",
+    "keywords": [
+      "CLIP",
+      "对比学习",
+      "图文嵌入",
+      "零样本"
+    ],
+    "explanations": {
+      "A": "经典 CLIP 支持使用文本类别描述进行零样本分类，不必先重新训练。",
+      "B": "图文表征经对比训练对齐，可用于类别文本与图片的匹配。",
+      "C": "这是混入扩散生成的流程，不是 CLIP 分类机制。",
+      "D": "经典 CLIP 不是商品描述生成器，通常分别编码图片和文本后比较表征。"
+    }
   },
   {
     "id": "098",
     "number": 98,
-    "originalTitle": "SD 文生图的全过程是什么？\r",
+    "originalTitle": "SD 文生图的全过程是什么？",
     "dimension": "AI 基础认知",
     "dimensionId": 1,
     "difficulty": "进阶",
@@ -1566,12 +3210,29 @@ export const questionBank = [
       "先训练一个新模型，再为每次请求采集新的标注数据",
       "先把随机噪声解码成最终图片，再仅修改提示词文字"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "区分文本条件与去噪。",
+      "理解解码输出。"
+    ],
+    "focus": "文生图界面操作与模型推理链路的区别。",
+    "keywords": [
+      "Stable Diffusion",
+      "文本编码",
+      "去噪",
+      "VAE"
+    ],
+    "explanations": {
+      "A": "文本提供条件，去噪在潜空间进行，解码器将结果还原到像素空间。",
+      "B": "文本条件不是最终像素，需要生成与解码流程。",
+      "C": "通常推理使用已训练权重，无需每次重新训练。",
+      "D": "没有完成基于条件的迭代去噪，不能形成对应图像。"
+    }
   },
   {
     "id": "099",
     "number": 99,
-    "originalTitle": "噪声训练器是怎么生成的？\r",
+    "originalTitle": "噪声训练器是怎么生成的？",
     "dimension": "AI 基础认知",
     "dimensionId": 1,
     "difficulty": "高阶",
@@ -1582,12 +3243,29 @@ export const questionBank = [
       "将原始潜变量作为目标，只训练不接收时间步的重建网络",
       "用文本与原图的相似度作损失，不构建加噪与噪声目标"
     ],
-    "correctAnswer": "B"
+    "correctAnswer": "B",
+    "assessmentPoints": [
+      "理解前向加噪。",
+      "识别训练目标。"
+    ],
+    "focus": "扩散噪声预测与噪声增强训练的区别。",
+    "keywords": [
+      "扩散训练",
+      "高斯噪声",
+      "噪声预测",
+      "时间步"
+    ],
+    "explanations": {
+      "A": "这是数据增强分类，不等于所限定的扩散噪声预测。",
+      "B": "已知采样噪声提供监督信号，网络学习相应去噪预测任务。",
+      "C": "这更接近普通重建，缺少本题限定的按时间步加噪和 epsilon 预测目标。",
+      "D": "图文对齐损失不等于本题限定的扩散噪声预测监督，不能替代对应目标。"
+    }
   },
   {
     "id": "100",
     "number": 100,
-    "originalTitle": "潜空间是什么概念呢？其存在的意义是什么？\r",
+    "originalTitle": "潜空间是什么概念呢？其存在的意义是什么？",
     "dimension": "AI 基础认知",
     "dimensionId": 1,
     "difficulty": "进阶",
@@ -1598,6 +3276,23 @@ export const questionBank = [
       "潜空间只是把原图文件压缩成 ZIP，解压便恢复所有像素",
       "潜空间保证每个维度对应唯一、可人工命名的语义"
     ],
-    "correctAnswer": "A"
+    "correctAnswer": "A",
+    "assessmentPoints": [
+      "理解潜空间压缩。",
+      "识别信息损失和解码。"
+    ],
+    "focus": "潜在表示、像素空间与语义完备性的区别。",
+    "keywords": [
+      "潜空间",
+      "VAE",
+      "表示学习",
+      "压缩"
+    ],
+    "explanations": {
+      "A": "潜空间表示压缩图像信息，便于生成计算，但不保证无损。",
+      "B": "表示空间不自动保证质量或公平，仍需评估。",
+      "C": "通用文件压缩不同于学习到的表示与解码机制。",
+      "D": "潜在特征通常不保证完全可解释或语义一一对应。"
+    }
   }
 ];
