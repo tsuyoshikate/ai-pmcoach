@@ -1,6 +1,7 @@
 import React, {useEffect,useRef,useState} from 'react';
 import {REPORT_HEADINGS} from './ai-diagnosis.js';
 import {weakestDimensionId,hasEnoughEvidence,createDiagnosisLoader} from './diagnosis-loader.js';
+import {requestLocalAI} from './local-ai-client.js';
 const cacheKey=state=>`ai-pmcoach-ai-v2-${state.sessionId}`;
 export function useLocalDiagnosis(state,result) {
   const enabled=Boolean(import.meta.env && import.meta.env.VITE_LOCAL_AI==='1');
@@ -14,14 +15,9 @@ export function useLocalDiagnosis(state,result) {
     const abort=new AbortController();let saved={};
     try {const cache=JSON.parse(window.localStorage.getItem(cacheKey(state)));if(cache&&JSON.stringify(cache.answers)===JSON.stringify(state.answers)&&Object.values(cache.reports??{}).every(r=>['ai','fallback'].includes(r.source)&&REPORT_HEADINGS.every(h=>typeof r.sections?.[h]==='string'&&r.sections[h].length<7000)))saved=cache.reports??{};}catch{}
     setReports(saved);
-    const current={...saved};let tokenPromise;
+    const current={...saved};
     const load=createDiagnosisLoader({dimensions:result.dimensions,reports:current,signal:abort.signal,
-      invoke:async(input,signal)=>{
-        tokenPromise??=fetch('/api/ai-status',{signal}).then(async r=>{if(!r.ok)throw Error('Local session unavailable');return(await r.json()).token;}).catch(error=>{tokenPromise=null;throw error;});
-        const token=await tokenPromise;
-        const r=await fetch('/api/diagnose',{method:'POST',headers:{'Content-Type':'application/json','X-AI-Session':token},body:JSON.stringify({state,dimensionId:input.dimensionId}),signal});
-        if(!r.ok)throw Error('Diagnosis request failed');return(await r.json()).text;
-      },onStatus:(id,status)=>{if(!abort.signal.aborted)setLoading(old=>({...old,[id]:status}));},
+      invoke:(input,signal)=>requestLocalAI('/api/diagnose',{state,dimensionId:input.dimensionId},signal),onStatus:(id,status)=>{if(!abort.signal.aborted)setLoading(old=>({...old,[id]:status}));},
       onReport:(id,report)=>{if(abort.signal.aborted)return;current[id]=report;setReports({...current});try{window.localStorage.setItem(cacheKey(state),JSON.stringify({answers:state.answers,reports:current}));}catch{}},
     });
     loader.current=load;if(weakest)load(weakest).catch(()=>{});

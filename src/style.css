@@ -282,3 +282,20 @@ button:focus-visible { outline: 3px solid #7d99b8; outline-offset: 5px; }
 @keyframes diagnosis-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .diagnosis-spinner { animation: none; } }
 @media (max-width: 760px) { .diagnosis-list { grid-template-columns: 1fr; } .diagnosis-row.diagnosis-card { padding: 23px; } .diagnosis-card .diagnosis-row-heading h3 { font-size: 17px; } }
+
+.learning-resources { margin-top: 18px; border-top: 1px solid #ecebe5; padding-top: 14px; }
+.resource-toggle { border: 1px solid #dfe3e6; border-radius: 5px; padding: 8px 12px; font-size: 12px; font-weight: 500; color: #52637a; background: transparent; cursor: pointer; display: inline-flex; align-items: center; gap: 12px; }
+.resource-toggle:hover { background: #f5f6f7; border-color: #9caabe; }
+.resource-toggle:focus-visible,.resource-search:focus-visible { outline: 2px solid #2d5be3; outline-offset: 3px; }
+.resource-list { margin-top: 14px; display: grid; gap: 12px; }
+.resource-item { padding: 16px; border: 1px solid #e3e5e5; border-radius: 6px; background: #fcfcfa; min-width: 0; }
+.resource-title { display: flex; align-items: start; justify-content: space-between; gap: 10px; }
+.diagnosis-card .resource-title h4 { font-family: var(--title-font); font-size: 15px; line-height: 1.6; font-weight: 700; margin: 0; color: #33455d; }
+.resource-type { font-size: 10px; color: #718297; background: #edf0f2; padding: 2px 6px; border-radius: 3px; flex-shrink: 0; margin-top: 3px; }
+.diagnosis-card .resource-context { color: #90979d; font-size: 11px; margin: 0 0 2px; }
+.diagnosis-card .resource-meta { color: #7d8791; font-size: 11px; margin-top: 7px; }
+.diagnosis-card .resource-reason { color: #78838b; font-size: 12px; margin: 9px 0 12px; line-height: 1.8; }
+.resource-search { display: flex; flex-direction: column; gap: 4px; border: 1px solid #dce2ec; border-radius: 5px; padding: 8px 10px; color: #3c5f9b; text-decoration: none; background: #f6f8fc; overflow-wrap: anywhere; }
+.resource-search span { font-size: 11px; }
+.resource-search strong { font-size: 12px; font-weight: 500; line-height: 1.6; }
+.resource-search:hover { border-color: #91a9cc; background: #eef3fa; }

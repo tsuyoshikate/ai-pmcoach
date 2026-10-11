@@ -3,6 +3,7 @@ import { calculateResult, radarPoint, scoreBand } from './results.js';
 import { readQuizState, TOTAL_QUESTIONS } from './quiz.js';
 import { startNewQuiz } from './Assessment.jsx';
 import {useLocalDiagnosis,DiagnosisContent,DiagnosisLoading,hasEnoughEvidence} from './LocalAIDiagnosis.jsx';
+import LearningResources from './LearningResources.jsx';
 
 function RadarChart({ dimensions }) {
   const polygon = score => dimensions.map((_, index) => radarPoint(index, score).join(',')).join(' ');
@@ -74,6 +75,7 @@ export default function Results({ completedState }) {
             {expanded&&<div id={'dimension-diagnosis-'+d.id}>
               {!hasEnoughEvidence(d)?<p className="insufficient-diagnosis">这个维度的答题数据不足以生成诊断，建议你做一次专项测评。</p>:
                 ai.enabled&&!report?<DiagnosisLoading status={ai.loading[d.id]??'loading'}/>:<DiagnosisContent dimension={d} report={report}/>}
+              <LearningResources dimension={d} state={state}/>
             </div>}
           </article>;
         })}</div>
