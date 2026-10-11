@@ -19,13 +19,16 @@ export function updateAbility(ability, level, correct) {
 export function isComplete(answerCount, abilities) {
   return answerCount >= TOTAL_QUESTIONS && abilities.every(a => a.count >= MIN_PER_DIMENSION);
 }
-export function selectNextQuestion(bank, abilities, cursor, usedIds, random = Math.random) {
+export function selectNextQuestion(bank, abilities, cursor, usedIds, random = Math.random, previouslySeenIds = []) {
   const used = new Set(usedIds);
+  const seen = new Set(previouslySeenIds);
   for (let offset = 0; offset < abilities.length; offset++) {
     const index = (cursor + offset) % abilities.length;
     const ability = abilities[index];
     if (ability.count >= MIN_PER_DIMENSION) continue;
-    const available = bank.filter(q => q.dimensionId === ability.dimensionId && !used.has(q.id));
+    const allAvailable = bank.filter(q => q.dimensionId === ability.dimensionId && !used.has(q.id));
+    const fresh = allAvailable.filter(q => !seen.has(q.id));
+    const available = fresh.length ? fresh : allAvailable;
     if (!available.length) throw new Error(`Dimension ${ability.dimensionId} has insufficient unused questions`);
     const distance = Math.min(...available.map(q => Math.abs(difficultyLevel(q) - ability.difficulty)));
     // Tie goes to the lower available tier; score uses actual question difficulty.
@@ -37,7 +40,8 @@ export function selectNextQuestion(bank, abilities, cursor, usedIds, random = Ma
     return { questionId: question.id, dimensionId: ability.dimensionId, dimensionCountBefore: ability.count,
       targetDifficulty: ability.difficulty, actualDifficulty, candidateIds: candidates.map(q => q.id),
       fallbackReason: distance ? '目标难度无未作答题目，使用同维度最近可用难度（同距优先较低档）' : null,
-      nextCursor: (index + 1) % abilities.length };
+      nextCursor: (index + 1) % abilities.length,
+      ...(previouslySeenIds.length?{historyPreference:{unseenAvailable:fresh.length,seenBefore:seen.has(question.id),reuseReason:fresh.length?null:'该维度未见过的题已用完，回用旧题'}}:{}) };
   }
   return null;
 }
@@ -48,7 +52,7 @@ export function logQuestionDecision(state, resumed = false, logger = console) {
     sessionId: state.sessionId, 维度: dimensions[decision.dimensionId - 1].name,
     已测题数: decision.dimensionCountBefore, 目标难度: decision.targetDifficulty,
     实际难度: decision.actualDifficulty, 候选题号: decision.candidateIds,
-    选中题号: decision.questionId, 回退原因: decision.fallbackReason ?? '无，命中目标档',
+    选中题号: decision.questionId, 回退原因: decision.fallbackReason ?? '无，命中目标档', 历史避题: decision.historyPreference ?? '首次测评',
   });
 }
 export function logScoreChange(state, answer, logger = console) {

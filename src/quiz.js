@@ -1,17 +1,20 @@
 import { questionBank } from './question-bank.js';
 import { initialAbilities, isComplete, selectNextQuestion, updateAbility, TOTAL_QUESTIONS, difficultyLevel } from './cat.js';
+import {saveSnapshot} from './snapshots.js';
 export { questionBank, TOTAL_QUESTIONS };
 export const QUIZ_STORAGE_KEY = 'ai-pmcoach-assessment-cat-v4';
 export const HISTORY_STORAGE_KEY = 'ai-pmcoach-history-v1';
+export const SEEN_STORAGE_KEY = 'ai-pmcoach-seen-questions-v1';
 const bankById = new Map(questionBank.map(q => [q.id, q]));
 export const getQuestion = id => bankById.get(id);
-export function initialQuizState(now = Date.now(), random = Math.random) {
+export function initialQuizState(now = Date.now(), random = Math.random, previouslySeenIds = []) {
+  previouslySeenIds=[...new Set(previouslySeenIds)].filter(id=>bankById.has(id)).sort();
   const abilities = initialAbilities();
-  const decision = selectNextQuestion(questionBank, abilities, 0, [], random);
+  const decision = selectNextQuestion(questionBank, abilities, 0, [], random, previouslySeenIds);
   return { version: 4, sessionId: globalThis.crypto?.randomUUID?.() ?? `${now}-${Math.random()}`,
     questionIds: [decision.questionId], decisions: [decision], abilities, cursor: decision.nextCursor,
     index: 0, selected: null, answers: [], startedAt: now, completedAt: null,
-    questionElapsedMs: 0, timerStartedAt: now };
+    questionElapsedMs: 0, timerStartedAt: now, previouslySeenIds };
 }
 function accrue(state, now) {
   return { ...state, questionElapsedMs: state.questionElapsedMs + (state.timerStartedAt === null ? 0 : Math.max(0, now - state.timerStartedAt)),
@@ -37,7 +40,7 @@ export function quizReducer(state, action) {
   const abilities = state.abilities.map(a => a.dimensionId === ability.dimensionId ? ability : a);
   const index = state.index + 1;
   const complete = isComplete(index, abilities);
-  const decision = complete ? null : selectNextQuestion(questionBank, abilities, state.cursor, state.questionIds, action.random);
+  const decision = complete ? null : selectNextQuestion(questionBank, abilities, state.cursor, state.questionIds, action.random, state.previouslySeenIds??[]);
   return { ...next, index, selected: null, abilities, cursor: decision?.nextCursor ?? state.cursor,
     questionIds: decision ? [...state.questionIds, decision.questionId] : state.questionIds,
     decisions: decision ? [...state.decisions, decision] : state.decisions,
@@ -63,13 +66,14 @@ function validBase(s) {
 export function isValidQuizState(s) {
   if (!validBase(s) || s.version !== 4 || !Number.isInteger(s.index) || s.index < 0 || s.index > TOTAL_QUESTIONS
     || s.questionIds.length !== Math.min(s.index + 1, TOTAL_QUESTIONS) || !Array.isArray(s.decisions)
-    || s.decisions.length !== s.questionIds.length || !Array.isArray(s.abilities) || s.abilities.length !== 6) return false;
+    || s.decisions.length !== s.questionIds.length || !Array.isArray(s.abilities) || s.abilities.length !== 6
+    || (s.previouslySeenIds!==undefined&&(!Array.isArray(s.previouslySeenIds)||new Set(s.previouslySeenIds).size!==s.previouslySeenIds.length||s.previouslySeenIds.some(id=>!bankById.has(id))))) return false;
   let abilities = initialAbilities();
   let cursor = 0;
   const used = [];
   for (let i = 0; i < s.questionIds.length; i++) {
     const decision = s.decisions[i];
-    const expected = selectNextQuestion(questionBank, abilities, cursor, used, () => 0);
+    const expected = selectNextQuestion(questionBank, abilities, cursor, used, () => 0, s.previouslySeenIds??[]);
     if (!decision || !expected || decision.questionId !== s.questionIds[i]
       || !expected.candidateIds.includes(decision.questionId)
       || !same({ ...expected, questionId: decision.questionId }, decision)) return false;
@@ -119,10 +123,17 @@ export function readQuizHistory(storage) {
 export function saveQuizState(storage, state) {
   try {
     storage.setItem(QUIZ_STORAGE_KEY, JSON.stringify(state));
+    if(state.answers.length)storage.setItem(SEEN_STORAGE_KEY,JSON.stringify([...new Set([...readSeenQuestionIds(storage),...state.answers.map(a=>a.questionId)])].sort()));
     if (isComplete(state.index, state.abilities)) {
       const history = readQuizHistory(storage);
       if (!history.some(s => s.sessionId === state.sessionId)) storage.setItem(HISTORY_STORAGE_KEY, JSON.stringify([...history, state]));
+      if(isValidQuizState(state)&&state.answers.filter(a=>a.userAnswer!==null).length>=10&&!saveSnapshot(storage,state))return false;
     }
     return true;
   } catch { return false; }
+}
+export function readSeenQuestionIds(storage){
+  let seen=[];try{const raw=JSON.parse(storage.getItem(SEEN_STORAGE_KEY));if(Array.isArray(raw))seen=raw.filter(id=>bankById.has(id));}catch{}
+  const histories=readQuizHistory(storage);const current=readQuizState(storage);
+  return [...new Set([...seen,...histories.flatMap(s=>s.answers.map(a=>a.questionId)),...(current?.answers.map(a=>a.questionId)??[])])].sort();
 }

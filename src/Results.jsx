@@ -81,6 +81,7 @@ export default function Results({ completedState }) {
         })}</div>
       </section>
     </div>
-    <div className="results-actions"><button type="button" className="primary-button">开始你的学习计划</button><a className="retake-link" href="#/assessment" onClick={startNewQuiz}>重新抽题测评</a></div>
+    <div className="results-actions"><button type="button" className="primary-button">开始你的学习计划</button><a className="retake-link" href="#/assessment" onClick={startNewQuiz}>立即复测</a><a className="retake-link" href="#/">查看成长主页与复测对比</a></div>
+    {state.answers.filter(a=>a.userAnswer!==null).length<10&&<p className="growth-method">完成测评且实际作答至少10题，才会保存成长快照；跳过不计入有效作答数。</p>}
   </main>;
 }

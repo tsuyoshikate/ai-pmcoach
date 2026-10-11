@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { getQuestion, initialQuizState, quizReducer, readQuizState, saveQuizState, TOTAL_QUESTIONS } from './quiz.js';
+import { getQuestion, initialQuizState, quizReducer, readQuizState, saveQuizState, readSeenQuestionIds, TOTAL_QUESTIONS } from './quiz.js';
 import { isComplete, logQuestionDecision, logScoreChange } from './cat.js';
 
 export function startNewQuiz() {
-  const state = initialQuizState();
+  let seen=[];try{seen=readSeenQuestionIds(window.localStorage);}catch{}
+  const state = initialQuizState(Date.now(),Math.random,seen);
   try { saveQuizState(window.localStorage, state); } catch { /* Assessment still works in memory. */ }
   return state;
 }
@@ -16,7 +17,7 @@ export function startOrResumeQuiz() {
 }
 export default function Assessment({ onComplete }) {
   const [state, setState] = useState(() => {
-    try { return readQuizState(window.localStorage) ?? initialQuizState(); } catch { return initialQuizState(); }
+    try { return readQuizState(window.localStorage) ?? initialQuizState(Date.now(),Math.random,readSeenQuestionIds(window.localStorage)); } catch { return initialQuizState(); }
   });
   const stateRef = useRef(state);
   const [storageError, setStorageError] = useState(false);
