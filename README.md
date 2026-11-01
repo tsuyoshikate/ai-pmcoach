@@ -80,6 +80,16 @@ npm run build -- --base=./
 - 101–254：源文件在 question-sources/d1.txt–d6.txt（按维度），用 `node scripts/build-extra-questions.mjs <输出.json> 101 question-sources/d1.txt … d6.txt` 生成。题源包括课程《AI 产品经理面试核心 50 题》《AI 产品经理面试题库》、课程知识库，以及人人都是产品经理的公开文章，覆盖 RAG、Agent、评测、幻觉兜底、成本与 ROI 等。每题记录 `source`。
 - 新题的正确选项位置由脚本均衡分配（A–D 各约 25%），并有测试检查「正确项是最长选项」的比例低于 25%，避免凭长度猜答案。
 
-## 可选 AI 诊断
+## AI 诊断（Vercel 中转）
+
+部署在 Vercel 时自动开启大模型诊断、学习资源推荐和情景题评分；部署在 GitHub Pages 等静态托管时只用规则诊断。
+
+- `api/` 是 Vercel 的后端函数：`ai-status` 发放 30 分钟有效的会话令牌；`diagnose`、`resources`、`scenario` 校验同源和令牌，**用题库和代码重新计算答题记录、重建提示词**，不转发浏览器传来的任何指令，再调用 DeepSeek。
+- 密钥只放在 Vercel 环境变量里，浏览器拿不到。
+- 每日限额：每位访客（按 IP 哈希）默认每天 15 次，全站默认每天 300 次，计数存在 Upstash Redis。超额、未配置或模型出错时返回错误，前端按原有逻辑重试后自动改用规则诊断，所以任何配置缺失都不会导致无限花费。
+- 环境变量：`DEEPSEEK_API_KEY`（必填）；Upstash 集成会自动加上 `KV_REST_API_URL`、`KV_REST_API_TOKEN`；可选 `DEEPSEEK_MODEL`（默认 `deepseek-v4-flash`）、`DAILY_PER_VISITOR`、`DAILY_TOTAL`。
+- 建议在 DeepSeek 平台为本项目单独建一个密钥，账户只保留少量余额，作为最后一道保险。
+
+## AI 诊断的指令与校验（原说明）
 
 公开版本默认使用规则诊断，下载后无需配置模型即可运行。已提供严格的五段中文诊断指令、输出校验、1秒/3秒重试和24段分档通用诊断；如需使用大模型，请自行接入后端。详见 [诊断指令](docs/AI_DIAGNOSIS_PROMPT.md) 和 [接入说明](docs/AI_DIAGNOSIS_INTEGRATION.md)。仓库不包含作者的本地 GPT 适配器、账号凭据或代理配置。
