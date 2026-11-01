@@ -18,11 +18,12 @@ test('results use per-dimension EMA scores and mean score, while retaining accur
   const r = calculateResult(state);
   assert.equal(r.totalCorrect, 18);
   assert.equal(r.accuracy, 100);
-  assert.equal(r.total, 74);
+  // 题库已有难度 5：全对路径为 3→4→5，50→57.5→67.25→77.075
+  assert.equal(r.total, 77);
   for (const d of r.dimensions) {
     assert.equal(d.total, 3);
-    assert.equal(d.score, 74);
-    assert.ok(Math.abs(d.rawScore - 74.075) < 1e-8);
+    assert.equal(d.score, 77);
+    assert.ok(Math.abs(d.rawScore - 77.075) < 1e-8);
   }
   assert.ok(calculateResult(attempt(false)).total < r.total);
 });
@@ -30,21 +31,21 @@ test('accuracy displays 94.4 for 17 correct answers and keeps skips in the denom
   const oneWrong = calculateResult(attempt(index => index !== 17));
   assert.equal(oneWrong.totalCorrect, 17);
   assert.equal(oneWrong.accuracy, 94.4);
-  assert.equal(oneWrong.total, 72);
+  assert.equal(oneWrong.total, 75);
   const oneSkipped = calculateResult(attempt(true, 17));
   assert.equal(oneSkipped.totalCorrect, 17);
   assert.equal(oneSkipped.skipped, 1);
   assert.equal(oneSkipped.accuracy, 94.4);
   assert.equal(calculateResult(attempt(false)).accuracy, 0);
 });
-test('results replay contributions using the actual drawn tier, not the unavailable target tier', () => {
+test('results replay contributions using the actual drawn tier', () => {
   const s = attempt(true);
   const final = s.answers[12];
   assert.equal(final.targetDifficulty, 5);
-  assert.equal(final.actualDifficulty, 4);
-  assert.equal(final.contribution, 90);
+  assert.equal(final.actualDifficulty, 5);
+  assert.equal(final.contribution, 100);
   assert.ok(calculateResult(s));
-  s.answers[12].contribution = 100;
+  s.answers[12].contribution = 90;
   assert.equal(calculateResult(s), null);
 });
 test('no report before all dimensions meet coverage', () => {

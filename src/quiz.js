@@ -8,9 +8,12 @@ export const HISTORY_STORAGE_KEY = 'ai-pmcoach-history-v1';
 export const SEEN_STORAGE_KEY = 'ai-pmcoach-seen-questions-v1';
 const bankById = new Map(questionBank.map(q => [q.id, q]));
 export const getQuestion = id => bankById.get(id);
+// Seen-question history is kept in order from oldest to most recently answered.
+export function keepLatest(ids){const last=new Map();ids.forEach((id,i)=>last.set(id,i));return [...last].sort((a,b)=>a[1]-b[1]).map(([id])=>id);}
+export function markSeen(storage,ids){storage.setItem(SEEN_STORAGE_KEY,JSON.stringify(keepLatest([...readSeenQuestionIds(storage),...ids])));}
 export function initialQuizState(now = Date.now(), random = Math.random, previouslySeenIds = []) {
   if(!checkQuestionBank(questionBank).ready)throw Error(BANK_NOT_READY);
-  previouslySeenIds=[...new Set(previouslySeenIds)].filter(id=>bankById.has(id)).sort();
+  previouslySeenIds=keepLatest(previouslySeenIds.filter(id=>bankById.has(id)));
   const abilities = initialAbilities();
   const decision = selectNextQuestion(questionBank, abilities, 0, [], random, previouslySeenIds);
   return { version: 4, sessionId: globalThis.crypto?.randomUUID?.() ?? `${now}-${Math.random()}`,
@@ -128,7 +131,7 @@ export function readQuizHistory(storage) {
 export function saveQuizState(storage, state) {
   try {
     storage.setItem(QUIZ_STORAGE_KEY, JSON.stringify(state));
-    if(state.answers.length)storage.setItem(SEEN_STORAGE_KEY,JSON.stringify([...new Set([...readSeenQuestionIds(storage),...state.answers.map(a=>a.questionId)])].sort()));
+    if(state.answers.length)markSeen(storage,state.answers.map(a=>a.questionId));
     if (isComplete(state.index, state.abilities)) {
       const history = readQuizHistory(storage);
       if (!history.some(s => s.sessionId === state.sessionId)) storage.setItem(HISTORY_STORAGE_KEY, JSON.stringify([...history, state]));
@@ -140,5 +143,8 @@ export function saveQuizState(storage, state) {
 export function readSeenQuestionIds(storage){
   let seen=[];try{const raw=JSON.parse(storage.getItem(SEEN_STORAGE_KEY));if(Array.isArray(raw))seen=raw.filter(id=>bankById.has(id));}catch{}
   const histories=readQuizHistory(storage);const current=readQuizState(storage);
-  return [...new Set([...seen,...histories.flatMap(s=>s.answers.map(a=>a.questionId)),...(current?.answers.map(a=>a.questionId)??[])])].sort();
+  const known=new Set(seen);
+  // Records from before the ordered list existed go first, oldest answer first.
+  const legacy=[...histories.flatMap(s=>s.answers),...(current?.answers??[])].filter(a=>!known.has(a.questionId)).sort((a,b)=>(a.answeredAt??0)-(b.answeredAt??0)).map(a=>a.questionId);
+  return keepLatest([...legacy,...seen]);
 }

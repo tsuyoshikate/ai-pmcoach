@@ -1,4 +1,4 @@
-import {questionBank,getQuestion,readSeenQuestionIds,SEEN_STORAGE_KEY} from './quiz.js';
+import {questionBank,getQuestion,markSeen,keepLatest} from './quiz.js';
 import {initialAbilities,selectNextQuestion,updateAbility,difficultyLevel} from './cat.js';
 import {dimensions} from './dimensions.js';
 const key=id=>'ai-pmcoach-practice-v1-'+id;
@@ -10,7 +10,7 @@ export function practiceStats(s){
 function nextId(s,random){const abilities=initialAbilities().map(a=>a.dimensionId===s.dimensionId?practiceStats(s):{...a,count:3});return selectNextQuestion(questionBank,abilities,s.dimensionId-1,s.ids,random,s.seen).questionId;}
 export function newPractice(id,seen=[],random=Math.random){
   if(!dimensions.some(d=>d.id===id))throw Error('Invalid dimension');
-  const s={version:1,dimensionId:id,ids:[],answers:[],selected:null,seen:[...new Set(seen)].filter(q=>getQuestion(q)),questionStartedAt:Date.now()};s.ids.push(nextId(s,random));return s;
+  const s={version:1,dimensionId:id,ids:[],answers:[],selected:null,seen:keepLatest(seen.filter(q=>getQuestion(q))),questionStartedAt:Date.now()};s.ids.push(nextId(s,random));return s;
 }
 export function answerPractice(s,random=Math.random,now=Date.now()){
   if(s.answers.length>=3||!/^[ABCD]$/.test(s.selected))return s;
@@ -24,4 +24,4 @@ export function validPractice(s,id){
   }catch{return false;}
 }
 export function readPractice(storage,id){try{const s=JSON.parse(storage.getItem(key(id)));return validPractice(s,id)?s:null;}catch{return null;}}
-export function savePractice(storage,s){try{storage.setItem(key(s.dimensionId),JSON.stringify(s));storage.setItem(SEEN_STORAGE_KEY,JSON.stringify([...new Set([...readSeenQuestionIds(storage),...s.answers.map(a=>a.questionId)])].sort()));return true;}catch{return false;}}
+export function savePractice(storage,s){try{storage.setItem(key(s.dimensionId),JSON.stringify(s));markSeen(storage,s.answers.map(a=>a.questionId));return true;}catch{return false;}}

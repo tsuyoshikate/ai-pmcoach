@@ -19,16 +19,25 @@ export function updateAbility(ability, level, correct) {
 export function isComplete(answerCount, abilities) {
   return answerCount >= TOTAL_QUESTIONS && abilities.every(a => a.count >= MIN_PER_DIMENSION);
 }
+function olderHalf(questions, recency) {
+  if (questions.length <= 1) return questions;
+  const ranked = [...questions].sort((a, b) => (recency.get(a.id) ?? -1) - (recency.get(b.id) ?? -1) || a.id.localeCompare(b.id));
+  return ranked.slice(0, Math.ceil(ranked.length / 2));
+}
 export function selectNextQuestion(bank, abilities, cursor, usedIds, random = Math.random, previouslySeenIds = []) {
   const used = new Set(usedIds);
   const seen = new Set(previouslySeenIds);
+  const recency = new Map(previouslySeenIds.map((id, i) => [id, i]));
   for (let offset = 0; offset < abilities.length; offset++) {
     const index = (cursor + offset) % abilities.length;
     const ability = abilities[index];
     if (ability.count >= MIN_PER_DIMENSION) continue;
     const allAvailable = bank.filter(q => q.dimensionId === ability.dimensionId && !used.has(q.id));
     const fresh = allAvailable.filter(q => !seen.has(q.id));
-    const available = fresh.length ? fresh : allAvailable;
+    // No unseen question left in this dimension: reuse only the older half of what the
+    // user has seen (previouslySeenIds is ordered oldest → most recent), so the questions
+    // from the last test or two never come straight back.
+    const available = fresh.length ? fresh : olderHalf(allAvailable, recency);
     if (!available.length) throw new Error(`Dimension ${ability.dimensionId} has insufficient unused questions`);
     const distance = Math.min(...available.map(q => Math.abs(difficultyLevel(q) - ability.difficulty)));
     // Tie goes to the lower available tier; score uses actual question difficulty.
@@ -41,7 +50,7 @@ export function selectNextQuestion(bank, abilities, cursor, usedIds, random = Ma
       targetDifficulty: ability.difficulty, actualDifficulty, candidateIds: candidates.map(q => q.id),
       fallbackReason: distance ? '目标难度无未作答题目，使用同维度最近可用难度（同距优先较低档）' : null,
       nextCursor: (index + 1) % abilities.length,
-      ...(previouslySeenIds.length?{historyPreference:{unseenAvailable:fresh.length,seenBefore:seen.has(question.id),reuseReason:fresh.length?null:'该维度未见过的题已用完，回用旧题'}}:{}) };
+      ...(previouslySeenIds.length?{historyPreference:{unseenAvailable:fresh.length,seenBefore:seen.has(question.id),reuseReason:fresh.length?null:'该维度未见过的题已用完，只从较早做过的一半题中回用'}}:{}) };
   }
   return null;
 }
