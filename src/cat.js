@@ -42,7 +42,11 @@ export function selectNextQuestion(bank, abilities, cursor, usedIds, random = Ma
     const distance = Math.min(...available.map(q => Math.abs(difficultyLevel(q) - ability.difficulty)));
     // Tie goes to the lower available tier; score uses actual question difficulty.
     const actualDifficulty = Math.min(...available.filter(q => Math.abs(difficultyLevel(q) - ability.difficulty) === distance).map(difficultyLevel));
-    const candidates = available.filter(q => difficultyLevel(q) === actualDifficulty);
+    const sameLevel = available.filter(q => difficultyLevel(q) === actualDifficulty);
+    // 同一难度里先出新题（带 difficultyLevel 的 101 号以后），旧题等新题用完再出，
+    // 这样做过旧网站的用户不会一上来又碰到旧题。
+    const newer = sameLevel.filter(q => q.difficultyLevel !== undefined);
+    const candidates = newer.length ? newer : sameLevel;
     const randomValue = random();
     if (!Number.isFinite(randomValue) || randomValue < 0 || randomValue >= 1) throw new Error('Invalid random value');
     const question = candidates[Math.floor(randomValue * candidates.length)];

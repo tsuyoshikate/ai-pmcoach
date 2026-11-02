@@ -1,0 +1,14 @@
+更新包3：加难题 60 道（总题数 254 → 314）
+
+怎么上传：
+1. 打开 https://github.com/tsuyoshikate/ai-pmcoach
+2. 点 Add file → Upload files
+3. 把本文件夹里的 src、tests、question-sources 三个文件夹和 README.md 一起拖进去（上传说明.txt 不用传）
+4. 下面 Commit changes 填：加一批更难的题，新题优先出
+5. 点 Commit changes
+
+上传后 Vercel 和 GitHub Pages 会自动重新部署，约 1–2 分钟。
+
+这次改了什么：
+- 每个维度加 10 道难题（3 级为主，带 4、5 级），题干有具体数字和约束，错误选项是"大方向对但不符合题目条件"的近似答案
+- 抽题时同一难度先出新题，旧网站的 100 道旧题等新题用完才会出现

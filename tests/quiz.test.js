@@ -14,7 +14,7 @@ export function finish(state, mode = 'correct') {
   return state;
 }
 test('the bank keeps the 100 original questions plus the expanded set; only the first question is drawn initially', () => {
-  assert.equal(questionBank.length, 254);
+  assert.equal(questionBank.length, 314);
   assert.deepEqual(questionBank.slice(0, 100).map(q => q.number), Array.from({ length: 100 }, (_, i) => i + 1));
   assert.equal(TOTAL_QUESTIONS, 18);
   const state = initial();

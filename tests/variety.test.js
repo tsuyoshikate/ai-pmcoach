@@ -18,11 +18,14 @@ const quiet = { info() {} };
 test('every dimension has enough questions at every difficulty level', () => {
   for (const d of dimensions) {
     const own = questionBank.filter(q => q.dimensionId === d.id);
-    assert.ok(own.length >= 36, `${d.name} only has ${own.length}`);
+    assert.ok(own.length >= 46, `${d.name} only has ${own.length}`);
     for (let level = 1; level <= 5; level++) {
       const n = own.filter(q => difficultyLevel(q) === level).length;
       assert.ok(n >= 6, `${d.name} level ${level} only has ${n}`);
     }
+    // 每个维度的第一题是 3 级：3 级里要有足够多的新题，避免老用户一开始总碰到旧题
+    const freshL3 = own.filter(q => Number(q.id) > 100 && difficultyLevel(q) === 3).length;
+    assert.ok(freshL3 >= 5, `${d.name} only has ${freshL3} new level-3 questions`);
   }
 });
 
@@ -77,5 +80,21 @@ test('seen history is kept from oldest to most recent', () => {
     saveQuizState(store, s);
     const seen = readSeenQuestionIds(store);
     assert.deepEqual(seen, s.answers.map(a => a.questionId));
+  } finally { console.info = original; }
+});
+
+test('a first-time user gets newer questions before the legacy 001–100 ones', () => {
+  const original = console.info; console.info = quiet.info;
+  try {
+    for (let trial = 0; trial < 20; trial++) {
+      let s = initialQuizState(1000, Math.random, []);
+      while (!s.completedAt) {
+        const q = questionBank.find(x => x.id === s.questionIds[s.index]);
+        const pick = Math.random() < 0.5 ? q.correctAnswer : 'ABCD'.replace(q.correctAnswer, '')[0];
+        s = quizReducer(quizReducer(s, { type: 'select', option: pick, now: 2000 }), { type: 'next', now: 3000, random: Math.random });
+      }
+      const legacy = s.questionIds.filter(id => Number(id) <= 100);
+      assert.equal(legacy.length, 0, `legacy questions in first test: ${legacy}`);
+    }
   } finally { console.info = original; }
 });
